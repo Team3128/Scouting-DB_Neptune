@@ -1,0 +1,98 @@
+:root{
+    --bg-color: #242933;
+    --main-color: #d8dee9;
+    --sub-color: #617b94;
+    --sub-alt-color: #1b1f27;
+    --text-color: #d8dee9;
+    --error-color: #bf616a;
+    --font: 'Roboto Mono', monospace;
+
+    --subFilter: invert(53%) sepia(21%) saturate(567%) hue-rotate(168deg) brightness(84%) contrast(87%); 
+    /* default color filter from black to sub-color */
+
+    --mainFilter: invert(95%) sepia(6%) saturate(865%) hue-rotate(184deg) brightness(91%) contrast(100%);
+    /* dedfault color filter from black to main-color */
+}
+
+body{
+    margin: 0px;
+}
+
+#main{
+    height: 100vh;
+    width: 100vw;
+    display:flex;
+    flex-direction: row;
+    z-index: -1;
+
+    background-color: var(--sub-alt-color)
+}
+
+#sidebar{
+    height: 90vh;
+    max-width: 7vw;
+    width: 65px;
+    border-radius: 0.5rem;
+
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 2vw;
+    margin-right: 2vw;
+
+    background-color: var(--bg-color);
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
+.nav{
+    margin-left: auto;
+    margin-right: auto;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+
+    color: var(--sub-color);
+    transition: all ease-out 0.3s;
+
+}
+.nav:hover{
+    cursor: pointer;
+    transform: translateX(-1px) translateY(-1px);
+    color: var(--main-color);  
+}
+
+.navImg{
+    max-width: 48px;
+    max-height: 48px;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    filter: inherit;
+
+    transition: all ease-out 0.3s;
+    filter: var(--mainFilter)
+}
+
+a:hover{
+    cursor:pointer;
+}
+
+
+
+.navLabel{
+    margin-left: auto;
+    margin-right: auto;
+
+    font-family: var(--font);
+    font-size: 0.75rem;
+    color: inherit;
+
+    user-select: none;
+    transition: all ease-out 0.3s;
+}
+
+.navLabel:hover{
+    cursor: pointer;
+    /* transform: translateX(-1px) translateY(-1px);
+    color: var(--main-color); */
+}
