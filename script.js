@@ -16,10 +16,41 @@ const firebaseConfig = {
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
 
-  console.log("success")
+  var currentPage = 1;
+  var searchState = true;
+
+  // for(let i=0; i<6; i++){
+  //   document.getElementById(`nav${i}`).addEventListener("click", pageChange(i))
+  // }
+  function pageChange(i){
+    let viewpage = document.getElementsByClassName("viewpage");
+    console.log("triggered")
+    viewpage.forEach((elem)=>{
+      elem.style.display = "none";
+    })
+  }
+
+  document.getElementById("searchbar").addEventListener("keypress", function(event) {
+    if(event.key === "Enter"){
+      event.preventDefault();
+      if(currentPage == 1){
+        search(document.getElementById("searchbar").value)
         
+      }
+    }
+  })
+
+  function search(team){
+    if(searchState){
+      document.getElementById("searchbar").classList.remove("searchmain");
+      document.getElementById("searchbar").classList.add("searchbar");
+      searchState = false;
+    }
+  }
+  
+  //AFTER LOAD FUNCTIONS
   const db = getDatabase();
-  function getDataOnce(){
+  function getAllDataOnce(){
     return new Promise((resolve, reject)=>{
       try{    
         get(ref(db, "Events/CASD22/matches")).then((snapshot) => {
@@ -58,14 +89,31 @@ const firebaseConfig = {
     }
   )
 }
+  function getRobotDataOnce(){
+
+  }
+  function cacheRobotData(){
+    return new Promise((resolve, reject)=>{
+      try{    
+        get(ref(db, "Events/RRTest22/Robots")).then((snapshot) => {
+          console.log(snapshot.val())
+        })
+      }
+      catch(error){
+        console.log(error);
+        alert(error);
+        reject();
+      }
+    }
+  )
+  }
+  cacheRobotData();
   onValue(ref(db, 'Events/CASD22/matches'), (snapshot)=>{
-    const data = snapshot.val()
-    console.log(data)
-    
+
   })
 
   function generateMainTable(){
-    getDataOnce().then((returnArr) =>{
+    getAllDataOnce().then((returnArr) =>{
       let objKeys = returnArr[1]
       if(settings.main.skipColumnOfData){
         let list = settings.main.skipColumnNumberList
@@ -168,4 +216,4 @@ const firebaseConfig = {
   }
   
   
-generateMainTable()
+// generateMainTable()

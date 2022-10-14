@@ -4,3 +4,5 @@ const settings = {
         "skipColumnNumberList": [13, 17, 18, 19, 20, 21]
     }
 }
+
+var robotData = {}

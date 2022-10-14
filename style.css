@@ -26,13 +26,14 @@
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: var(--sub-color);
+    background-color: var(--main-color);
     border-radius: 10px;
     border: 3px solid var(--main-color);
   }
 
 body{
     margin: 0px;
+    overflow: hidden;
 }
 
 #main{
@@ -119,21 +120,95 @@ a:hover{
     color: var(--main-color);
     overflow:hidden;
 }
+.headCell{
+    font-size: 10px;
+    
+
+}
 th, td{
     table-layout: fixed;
-    width: 50px;
+    min-width: 58px;
     overflow:hidden;
     border-collapse: collapse;
+    text-align: left;
+}
+thead{
+    position: fixed;
+    top: 13.3px;
+    
 }
 table{
-    table-layout: fixed;
+    margin: 0px;
 }
 .rowLight{
     background-color: var(--sub-color);
 }
-
-#tableContainer{
+#tableContainer, #searchContainer{
     overflow-y: scroll;
     max-height: 90vh;
-    width: auto;
+    margin-top: 7vh;
+    margin-bottom: auto;
+    width: calc(100vw - 65px - 4vw);
+
+}
+
+#searchContainer{
+    display:grid;
+    background-color: var(--bg-color);
+    grid-template-columns: repeat(10, 8.9vw); 
+    /* ^ above line is iffy, pls change later */
+    grid-template-rows: repeat(10, 9vh);
+    height: 90vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    margin-right: 2vw;
+    width: calc(96vw - 65px - 2vw);
+    overflow:hidden;
+
+    border-radius: 0.45rem;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+.searchmain{
+    grid-row: 3/4;
+    grid-column: 3/9;
+
+    border: 3px solid var(--sub-color);
+    border-radius: 1rem;
+    background-color: var(--bg-color);
+
+    font-family: var(--font);
+    padding-left: 1vw;
+    font-size: 1rem;
+    color: var(--text-color);
+
+    transition: all 0.2s ease-in-out;
+}
+.searchmain:focus{
+    outline: none;
+    border: 3px var(--main-color) solid;
+
+}
+.searchbar{
+    grid-row: 1/2;
+    grid-column: 6/11;
+    margin: 1vh;
+    margin-right: 5vw;
+
+    border: 2px solid var(--sub-color);
+    border-radius: 1rem;
+    background-color: var(--bg-color);
+
+    font-family: var(--font);
+    padding-left: 1vw;
+    font-size: 1rem;
+    color: var(--text-color);
+
+    transition: all 0.2s ease-in-out;
+}
+
+.searchbar:focus{
+    outline: none;
+    border: 2px var(--main-color) solid;
+    transform: translateX(-1px) translateY(-1px);
+
 }

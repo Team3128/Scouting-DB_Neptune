@@ -18,37 +18,38 @@
     <div id="sidebar">
       
 
-      <div class="nav">
-        <object data="assets/home.svg" type="image/svg+xml" class="navImg"></object>
+      <div class="nav" id="nav0">
+        <img><object data="assets/home.svg" type="image/svg+xml" class="navImg"></object></img>
         <div class="navLabel">Home</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="nav1">
         <object data="assets/search.svg" type="image/svg+xml" class="navImg"></object>
+
         <div class="navLabel">Search</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="nav2">
         <object data="assets/compare.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Compare</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="nav3">
         <object data="assets/predict.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Predict</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="nav4">
         <object data="assets/star.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Rankings</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="nav5">
         <object data="assets/upload.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Upload</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="nav6" onclick="pageChange(6)">
         <object data="assets/settings.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Settings</div>
       </div>
@@ -56,12 +57,24 @@
 
   
     </div>
-    <div id="tableContainer">
-      
-    </div>
-
     <div id="view">
+      <div id="tableContainer" style="display:none" class="viewpage">
+        
+      </div>
+      <div id="searchContainer" class="viewpage">
+        <input id="searchbar" class="searchmain" placeholder="Enter team number here"></input>
+        <div id="teamDisplay">3128</div>
+        <div id="tabBtnContainer">
 
+        </div>
+        <div id="imgContainer">
+          <img></img>
+        </div>
+        <div id="miscData"></div>
+        <div id="graphContainer"></div>
+        <div id="dataContainer"></div>
+        <div id="qataContainer"></div>
+      </div>
     </div>
   </div>
 
