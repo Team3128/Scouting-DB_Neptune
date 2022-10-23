@@ -128,12 +128,28 @@ th, td{
 table{
     table-layout: fixed;
 }
-.rowLight{
-    background-color: var(--sub-color);
-}
+
 
 #tableContainer{
     overflow-y: scroll;
     max-height: 90vh;
     width: auto;
 }
+
+#tableContainer tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+#tableContainer tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+#tableContainer tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+#tableContainer tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
