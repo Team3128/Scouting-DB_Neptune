@@ -15,10 +15,13 @@
 }
 
 
-
+@font-face {
+    font-family: minecraft;
+    src: url(Minecraft-Regular.otf);
+  }
 
   *::-webkit-scrollbar {
-    width: 16px;
+    width: 8px;
   }
 
   *::-webkit-scrollbar-track {
@@ -28,7 +31,7 @@
   *::-webkit-scrollbar-thumb {
     background-color: var(--sub-color);
     border-radius: 10px;
-    border: 3px solid var(--main-color);
+    border: 2px solid var(--main-color);
   }
 
 body{
@@ -134,18 +137,30 @@ table{
     overflow-y: scroll;
     max-height: 90vh;
     width: auto;
+    font-family: minecraft, Arial, Helvetica, sans-serif;
+    text-align: center;
 }
 
 #tableContainer tbody tr {
+    color: rgb(201, 195, 246);
+    background-color: #1b1464;
     border-bottom: 1px solid #dddddd;
 }
 
 #tableContainer tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #072682;
 }
 
 #tableContainer tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
+}
+
+#tableContainer tbody tr td div {
+    height: 100px;
+    overflow: auto;
+}
+#tableContainer tbody tr td div p {
+    vertical-align: middle;
 }
 
 #tableContainer tbody tr.active-row {

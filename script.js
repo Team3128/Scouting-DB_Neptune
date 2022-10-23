@@ -67,11 +67,13 @@ const firebaseConfig = {
         for(var g=0;g<headNames.length;g++){
 
           const cellText = document.createElement("div");
+          const pushinP = document.createElement("p");
           const cell = document.createElement("td");
-          cellText.innerHTML = data[headNames[g]];
+          pushinP.innerHTML = data[headNames[g]];
 
           row.appendChild(cell);
           cell.appendChild(cellText);
+          cellText.appendChild(pushinP);
           tblBody.appendChild(row);
           tbl.appendChild(tblBody);
           //console.log(data[color[i]][j+1][headNames[g]])
