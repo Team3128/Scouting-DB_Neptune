@@ -7,6 +7,9 @@
     --error-color: #bf616a;
     --font: 'Roboto Mono', monospace;
 
+    --b: #0077b670;
+    --r: #ff000070;
+
     --subFilter: invert(53%) sepia(21%) saturate(567%) hue-rotate(168deg) brightness(84%) contrast(87%); 
     /* default color filter from black to sub-color */
 

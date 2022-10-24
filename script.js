@@ -62,6 +62,7 @@ const firebaseConfig = {
   onChildAdded(ref(db, 'Events/Test2022/Matches/'), (snapshot)=>{
     const data = snapshot.val()
     console.log(data)
+    let color = data["Alliance Color"][0]
     const row = document.createElement("tr");
 
         for(var g=0;g<headNames.length;g++){
@@ -76,9 +77,11 @@ const firebaseConfig = {
           cellText.appendChild(pushinP);
           tblBody.appendChild(row);
           tbl.appendChild(tblBody);
+
           //console.log(data[color[i]][j+1][headNames[g]])
 
-
+          row.style.backgroundColor = "var(--" + color + ")"
+          row.style.color = "var(--text-color)"
         }
 
   })
