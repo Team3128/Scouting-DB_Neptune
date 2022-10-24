@@ -77,7 +77,6 @@ const firebaseConfig = {
           cellText.appendChild(pushinP);
           tblBody.appendChild(row);
           tbl.appendChild(tblBody);
-
           //console.log(data[color[i]][j+1][headNames[g]])
 
           row.style.backgroundColor = "var(--" + color + ")"

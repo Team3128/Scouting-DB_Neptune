@@ -125,6 +125,12 @@ a:hover{
     color: var(--main-color);
     overflow:hidden;
 }
+.headCell {
+    position: sticky;
+    top: 0px;
+    background-color: var(--sub-alt-color);
+    font-size: 0.9vw;
+}
 th, td{
     table-layout: fixed;
     width: 50px;
@@ -140,7 +146,7 @@ table{
     overflow-y: scroll;
     max-height: 90vh;
     width: auto;
-    font-family: minecraft, Arial, Helvetica, sans-serif;
+    font-family: var(--font);
     text-align: center;
 }
 
