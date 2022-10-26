@@ -120,7 +120,8 @@ const firebaseConfig = {
           row.style.backgroundColor = "var(--" + color + ")"
           row.style.color = "var(--text-color)"
         }
-        tblBody.replaceChild(row, insert_val) 
+        tblBody.replaceChild(row, insert_val)
+        static_tracker[data["ZMatch Number"]][data["Alliance Color"]] = row
   }
   )
 

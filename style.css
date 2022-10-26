@@ -152,12 +152,12 @@ table{
 
 #tableContainer tbody tr {
     color: rgb(201, 195, 246);
-    background-color: #1b1464;
+    background-color: #5f5f5f;
     border-bottom: 1px solid #dddddd;
 }
 
 #tableContainer tbody tr:nth-of-type(even) {
-    background-color: #072682;
+    background-color: #504f4f;
 }
 
 #tableContainer tbody tr:last-of-type {
