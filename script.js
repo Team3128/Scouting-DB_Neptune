@@ -19,6 +19,8 @@ const firebaseConfig = {
   console.log("success")
         
   const db = getDatabase();
+
+  //title names
   var headNames = [
   "ZMatch Number",
   "ZTeam",
@@ -42,12 +44,17 @@ const firebaseConfig = {
   "Drivetrain Type",
   "Shooter Type",
 ];
+
+  //creating the table layout
   const tbl = document.createElement("table");
   const thead = document.createElement("thead")
   tbl.appendChild(thead)
   const tblBody = document.createElement("tbody");
   const headRow = document.createElement("tr")
   thead.appendChild(headRow)
+  tbl.appendChild(tblBody);
+
+  //creating the labels
   function tableHead(){
     for(var b =0; b<headNames.length; b++){
       const headCell = document.createElement("th");
@@ -59,27 +66,56 @@ const firebaseConfig = {
     document.getElementById("tableContainer").appendChild(tbl);
   }
 
+
+  //whenever new child is added it adds it to the cell
   onChildAdded(ref(db, 'Events/Test2022/Matches/'), (snapshot)=>{
     const data = snapshot.val()
-    console.log(data)
-    const row = document.createElement("tr");
+    
+        if(!static_tracker.hasOwnProperty(data["ZMatch Number"])){
+          var temp_obj = {}
+          for(var i=0; i<6; i++){
+            const row = document.createElement("tr");
+            temp_obj[color_tracker[i]] = row
+            for(var g=0;g<headNames.length;g++){
 
+              const cellText = document.createElement("div");
+              const cell = document.createElement("td");
+
+              if(headNames[g] == "Alliance Color"){
+                cellText.innerHTML = color_tracker[i]
+              }
+              else if(headNames[g] == "ZMatch Number"){
+                cellText.innerHTML = data["ZMatch Number"]
+              }
+              else{
+                cellText.innerHTML = "NA";
+              }
+              
+              row.appendChild(cell);
+              cell.appendChild(cellText);
+              tblBody.appendChild(row);
+              //console.log(data[color[i]][j+1][headNames[g]])
+    
+    
+            }
+          }
+          static_tracker[data["ZMatch Number"]] = temp_obj;
+        }
+
+       var insert_val = static_tracker[data["ZMatch Number"]][data["Alliance Color"]]
+        const row = document.createElement("tr")
         for(var g=0;g<headNames.length;g++){
 
           const cellText = document.createElement("div");
           const cell = document.createElement("td");
           cellText.innerHTML = data[headNames[g]];
-
           row.appendChild(cell);
           cell.appendChild(cellText);
-          tblBody.appendChild(row);
-          tbl.appendChild(tblBody);
-          //console.log(data[color[i]][j+1][headNames[g]])
-
 
         }
-
-  })
+        tblBody.replaceChild(row, insert_val)
+  }
+  )
 
 
 tableHead()
