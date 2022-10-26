@@ -77,9 +77,6 @@ const firebaseConfig = {
             const row = document.createElement("tr");
             temp_obj[color_tracker[i]] = row
             for(var g=0;g<headNames.length;g++){
-    console.log(data)
-    let color = data["Alliance Color"][0]
-    const row = document.createElement("tr");
 
               const cellText = document.createElement("div");
               const cell = document.createElement("td");
@@ -108,27 +105,22 @@ const firebaseConfig = {
        var insert_val = static_tracker[data["ZMatch Number"]][data["Alliance Color"]]
         const row = document.createElement("tr")
         for(var g=0;g<headNames.length;g++){
-
+          let color = data["Alliance Color"][0]
           const cellText = document.createElement("div");
           const pushinP = document.createElement("p");
           const cell = document.createElement("td");
-          cellText.innerHTML = data[headNames[g]];
-          row.appendChild(cell);
-          cell.appendChild(cellText);
 
           pushinP.innerHTML = data[headNames[g]];
 
           row.appendChild(cell);
           cell.appendChild(cellText);
           cellText.appendChild(pushinP);
-          tblBody.appendChild(row);
-          tbl.appendChild(tblBody);
           //console.log(data[color[i]][j+1][headNames[g]])
 
           row.style.backgroundColor = "var(--" + color + ")"
           row.style.color = "var(--text-color)"
         }
-        tblBody.replaceChild(row, insert_val)
+        tblBody.replaceChild(row, insert_val) 
   }
   )
 
