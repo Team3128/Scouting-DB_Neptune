@@ -7,6 +7,9 @@
     --error-color: #bf616a;
     --font: 'Roboto Mono', monospace;
 
+    --b: #0077b670;
+    --r: #ff000070;
+
     --subFilter: invert(53%) sepia(21%) saturate(567%) hue-rotate(168deg) brightness(84%) contrast(87%); 
     /* default color filter from black to sub-color */
 
@@ -15,10 +18,13 @@
 }
 
 
-
+@font-face {
+    font-family: minecraft;
+    src: url(Minecraft-Regular.otf);
+  }
 
   *::-webkit-scrollbar {
-    width: 16px;
+    width: 8px;
   }
 
   *::-webkit-scrollbar-track {
@@ -28,7 +34,7 @@
   *::-webkit-scrollbar-thumb {
     background-color: var(--sub-color);
     border-radius: 10px;
-    border: 3px solid var(--main-color);
+    border: 2px solid var(--main-color);
   }
 
 body{
@@ -119,6 +125,12 @@ a:hover{
     color: var(--main-color);
     overflow:hidden;
 }
+.headCell {
+    position: sticky;
+    top: 0px;
+    background-color: var(--sub-alt-color);
+    font-size: 0.9vw;
+}
 th, td{
     table-layout: fixed;
     width: 50px;
@@ -134,18 +146,30 @@ table{
     overflow-y: scroll;
     max-height: 90vh;
     width: auto;
+    font-family: var(--font);
+    text-align: center;
 }
 
 #tableContainer tbody tr {
+    color: rgb(201, 195, 246);
+    background-color: #1b1464;
     border-bottom: 1px solid #dddddd;
 }
 
 #tableContainer tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
+    background-color: #072682;
 }
 
 #tableContainer tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
+}
+
+#tableContainer tbody tr td div {
+    height: 100px;
+    overflow: auto;
+}
+#tableContainer tbody tr td div p {
+    vertical-align: middle;
 }
 
 #tableContainer tbody tr.active-row {
