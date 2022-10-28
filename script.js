@@ -40,11 +40,10 @@ const firebaseConfig = {
   "Penalty",
   "Yeet",
   "Oof",
-  "QATA",
   "Drivetrain Type",
   "Shooter Type",
 ];
-
+var color_tracker = ["b1","b2","b3","r1","r2","r3"]
   //creating the table layout
   const tbl = document.createElement("table");
   const thead = document.createElement("thead")
@@ -61,7 +60,11 @@ const firebaseConfig = {
       headRow.appendChild(headCell);
       headCell.classList.add("headCell")
       headCell.setAttribute("id", `head_cell_${b}`)
-      headCell.innerHTML = headNames[b]
+      if(headNames[b] == "ZTeam" || headNames[b] == "ZMatch Number" ){
+        headCell.innerHTML = headNames[b].substring(1)
+      }else{
+        headCell.innerHTML = headNames[b]
+      }
     }
     document.getElementById("tableContainer").appendChild(tbl);
   }
