@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-analytics.js";
 import { getDatabase, ref, onValue, get, set, onChildChanged, onChildAdded} from "https://www.gstatic.com/firebasejs/9.9.4/firebase-database.js"
+
 const firebaseConfig = {
     apiKey: "AIzaSyAO1aIe_fTZB6duj8YIRyYcLTINlcP196w",
     authDomain: "escouting-7b4e0.firebaseapp.com",
@@ -20,6 +21,76 @@ const firebaseConfig = {
         
   const db = getDatabase();
 
+  var rank_HeadNames = [
+    "Rank",
+    "Team",
+    "Ranking Score",
+    "Taxi",
+    "Auto High",
+    "Auto Low",
+    "Auto Missed",
+    "Tele High",
+    "Tele Low",
+    "Tele Missed",
+    "Attempted Climb",
+    "Climb Level",
+    "Climb Time",
+    "Defence Time",
+    "Penalty",
+    "Oof"
+  ];
+
+
+  onChildAdded(ref(db, 'Events/Test2022/Robots/'), (snapshot)=>{
+    const data = snapshot.val()
+    console.log(data)
+    var keyNames = Object.keys(data)
+    console.log(keyNames)
+    var total_value = 0;
+    for( var i=0; i<val_tracker.length;i++){
+      var temp_value = 0
+      for(var j=0; j<keyNames.length; j++){
+        if(val_tracker[i] == "Climb Level"){
+          switch(data[keyNames[j]][val_tracker[i]]){
+            case "T":
+              temp_value += 15
+              break;
+            case "H":
+              temp_value += 10
+              break;
+            case "M":
+              temp_value +=6
+              break;
+            case "L":
+              temp_value += 4
+              break;
+            case "N":
+              temp_value += 0
+              break;
+          }
+        }else{
+          temp_value += parseInt(data[keyNames[j]][val_tracker[i]])
+        }
+      }
+      temp_value/= keyNames.length
+      temp_value*= weights[weight_tracker[i]]
+      temp_value*= equalizer[equalizer_tracker[i]]
+      console.log(temp_value)
+      total_value+=temp_value
+    }
+    score_robot_tracker[total_value] = data[keyNames[0]]["ZTeam"]
+    sort_arr.push(total_value)
+    console.log(total_value)
+    sort_arr.sort(function(a,b){return a-b})
+    console.log(sort_arr)
+    for(var g=sort_arr.length-1;g>=0;g--){
+      console.log(score_robot_tracker[sort_arr[g]])
+    }
+    console.log(score_robot_tracker)
+  }
+  )
+
+/*
   //title names
   var headNames = [
   "ZMatch Number",
@@ -41,7 +112,7 @@ const firebaseConfig = {
   "Yeet",
   "Oof",
   "Drivetrain Type",
-  "Shooter Type",
+  "Shooter Type"
 ];
 var color_tracker = ["b1","b2","b3","r1","r2","r3"]
   //creating the table layout
@@ -130,3 +201,5 @@ var color_tracker = ["b1","b2","b3","r1","r2","r3"]
 
 
 tableHead()
+*/
+
