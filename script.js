@@ -24,7 +24,7 @@ const firebaseConfig = {
   var rank_HeadNames = [
     "Rank",
     "Team",
-    "Ranking Score",
+    "Score",
     "Taxi",
     "Auto High",
     "Auto Low",
@@ -39,14 +39,35 @@ const firebaseConfig = {
     "Penalty",
     "Oof"
   ];
+  const tbl = document.createElement("table");
+  const thead = document.createElement("thead")
+  tbl.appendChild(thead)
+  const tblBody = document.createElement("tbody");
+  const headRow = document.createElement("tr")
+  thead.appendChild(headRow)
+  tbl.appendChild(tblBody);
 
-
-  onChildAdded(ref(db, 'Events/Test2022/Robots/'), (snapshot)=>{
-    const data = snapshot.val()
-    console.log(data)
-    var keyNames = Object.keys(data)
-    console.log(keyNames)
+  //creating the labels
+  function rank_tableHead(){
+    for(var b =0; b<rank_HeadNames.length; b++){
+      const headCell = document.createElement("th");
+      headRow.appendChild(headCell);
+      headCell.classList.add("headCell")
+      headCell.setAttribute("id", `head_cell_${b}`)
+      headCell.innerHTML = rank_HeadNames[b]
+    }
+    document.getElementById("rank").appendChild(tbl);
+  }
+  
+  onValue(ref(db, 'Events/Test2022/Robots/'), (snapshot)=>{
+    const over = snapshot.val()
+    var objNames = Object.keys(over)
+    var sort_arr = [];
+    for(var r=0;r<objNames.length;r++){
+      var data = over[objNames[r]];
+      var keyNames = Object.keys(data)
     var total_value = 0;
+    var avg_temp={}
     for( var i=0; i<val_tracker.length;i++){
       var temp_value = 0
       for(var j=0; j<keyNames.length; j++){
@@ -73,23 +94,84 @@ const firebaseConfig = {
         }
       }
       temp_value/= keyNames.length
+      temp_value = temp_value.toFixed(1)
+      avg_temp[val_tracker[i]] = temp_value
       temp_value*= weights[weight_tracker[i]]
       temp_value*= equalizer[equalizer_tracker[i]]
-      console.log(temp_value)
-      total_value+=temp_value
+      temp_value = temp_value.toFixed(1)
+      total_value+=parseFloat(temp_value)
     }
-    score_robot_tracker[total_value] = data[keyNames[0]]["ZTeam"]
-    sort_arr.push(total_value)
-    console.log(total_value)
+    total_value = total_value.toFixed(1)
+    robot_avg_tracker[data[keyNames[0]]["ZTeam"]] = avg_temp
+
+    robot_score_tracker[data[keyNames[0]]["ZTeam"]] = total_value
+
+    }
+    var robot_score_key = Object.keys(robot_score_tracker)
+    for(var d=0;d<robot_score_key.length;d++){
+      if(sort_arr.indexOf(robot_score_tracker[robot_score_key[d]]) == -1){
+        sort_arr.push(robot_score_tracker[robot_score_key[d]])
+      }
+    }
     sort_arr.sort(function(a,b){return a-b})
-    console.log(sort_arr)
+    var rank_counter = 1;
+    tblBody.innerHTML = ""
     for(var g=sort_arr.length-1;g>=0;g--){
-      console.log(score_robot_tracker[sort_arr[g]])
+      for(var f=0; f<robot_score_key.length;f++){
+        if(robot_score_tracker[robot_score_key[f]] == sort_arr[g]){
+        var row = document.createElement("tr")
+        var cellText = document.createElement("div");
+          var pushinP = document.createElement("p");
+          var cell = document.createElement("td");
+
+          pushinP.innerHTML = rank_counter;
+          rank_counter++;
+          row.appendChild(cell);
+          cell.appendChild(cellText);
+          cellText.appendChild(pushinP);
+
+          cellText = document.createElement("div");
+          pushinP = document.createElement("p");
+          cell = document.createElement("td");
+
+          pushinP.innerHTML = robot_score_key[f];
+          row.appendChild(cell);
+          cell.appendChild(cellText);
+          cellText.appendChild(pushinP);
+
+          cellText = document.createElement("div");
+          pushinP = document.createElement("p");
+          cell = document.createElement("td");
+
+          pushinP.innerHTML = robot_score_tracker[robot_score_key[f]];
+          row.appendChild(cell);
+          cell.appendChild(cellText);
+          cellText.appendChild(pushinP);
+          for(var b=0; b<val_tracker.length;b++){
+            cellText = document.createElement("div");
+          pushinP = document.createElement("p");
+          cell = document.createElement("td");
+
+          pushinP.innerHTML = robot_avg_tracker[robot_score_key[f]][val_tracker[b]];
+          row.appendChild(cell);
+          cell.appendChild(cellText);
+          cellText.appendChild(pushinP);
+          }
+          tblBody.appendChild(row)
+        }
+      }
     }
-    console.log(score_robot_tracker)
+    
+    /*for(var g=sort_arr.length-1;g>=0;g--){
+      for(var f=0; f<score_robot_tracker[sort_arr[g]].length;f++){
+        console.log(score_robot_tracker[sort_arr[g]][f])
+      }
+    }*/
+
   }
   )
 
+  rank_tableHead()
 /*
   //title names
   var headNames = [

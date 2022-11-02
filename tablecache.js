@@ -2,8 +2,8 @@
 var static_tracker = {}
 
 //jahto
-var score_robot_tracker = {}
 var robot_score_tracker = {}
+var robot_avg_tracker = {}
 
 var weights = {
     "taxi_Weights" :1,
@@ -80,4 +80,3 @@ var val_tracker = [
     "Penalty",
     "Oof"
 ]
-var sort_arr = [];
