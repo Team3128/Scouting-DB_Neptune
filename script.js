@@ -13,6 +13,8 @@ const firebaseConfig = {
     measurementId: "G-8VWYRF9QY6"
 };
   
+  
+
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
@@ -20,7 +22,28 @@ const firebaseConfig = {
   console.log("success")
         
   const db = getDatabase();
-
+  var headNames = [
+    "ZMatch Number",
+    "ZTeam",
+    "Scout Name",
+    "Alliance Color",
+    "Taxi",
+    "Auto High",
+    "Auto Low",
+    "Auto Missed",
+    "Tele High",
+    "Tele Low",
+    "Tele Missed",
+    "Attempted Climb",
+    "Climb Level",
+    "Climb Time",
+    "Defence Time",
+    "Penalty",
+    "Yeet",
+    "Oof",
+    "Drivetrain Type",
+    "Shooter Type"
+  ];
   var rank_HeadNames = [
     "Rank",
     "Team",
@@ -39,14 +62,16 @@ const firebaseConfig = {
     "Penalty",
     "Oof"
   ];
-  const tbl = document.createElement("table");
-  const thead = document.createElement("thead")
+  var color_tracker = ["b1","b2","b3","r1","r2","r3"]
+
+  //ranking table generation
+  let tbl = document.createElement("table");
+  let thead = document.createElement("thead")
   tbl.appendChild(thead)
-  const tblBody = document.createElement("tbody");
-  const headRow = document.createElement("tr")
+  let tblBody = document.createElement("tbody");
+  let headRow = document.createElement("tr")
   thead.appendChild(headRow)
   tbl.appendChild(tblBody);
-
   //creating the labels
   function rank_tableHead(){
     for(var b =0; b<rank_HeadNames.length; b++){
@@ -58,17 +83,97 @@ const firebaseConfig = {
     }
     document.getElementById("rank").appendChild(tbl);
   }
-  
+
+  //general table generation
+  tbl = document.createElement("table");
+  thead = document.createElement("thead")
+  tbl.appendChild(thead)
+  tblBody = document.createElement("tbody");
+  headRow = document.createElement("tr")
+  thead.appendChild(headRow)
+  tbl.appendChild(tblBody);
+  //creating the labels
+  function table_tableHead(){
+    for(var b =0; b<headNames.length; b++){
+      const headCell = document.createElement("th");
+      headRow.appendChild(headCell);
+      headCell.classList.add("headCell")
+      headCell.setAttribute("id", `head_cell_${b}`)
+      if(headNames[b] == "ZTeam" || headNames[b] == "ZMatch Number" ){
+        headCell.innerHTML = headNames[b].substring(1)
+      }else{
+        headCell.innerHTML = headNames[b]
+      }
+    }
+    document.getElementById("table").appendChild(tbl);
+  }
+
+  onChildAdded(ref(db, 'Events/Test2022/Matches/'), (snapshot)=>{
+    const data = snapshot.val()
+    
+        if(!static_tracker.hasOwnProperty(data["ZMatch Number"])){
+          var temp_obj = {}
+          for(var i=0; i<6; i++){
+            const row = document.createElement("tr");
+            temp_obj[color_tracker[i]] = row
+            for(var g=0;g<headNames.length;g++){
+
+              const cellText = document.createElement("div");
+              const cell = document.createElement("td");
+
+              if(headNames[g] == "Alliance Color"){
+                cellText.innerHTML = color_tracker[i]
+              }
+              else if(headNames[g] == "ZMatch Number"){
+                cellText.innerHTML = data["ZMatch Number"]
+              }
+              else{
+                cellText.innerHTML = "NA";
+              }
+              
+              row.appendChild(cell);
+              cell.appendChild(cellText);
+              tblBody.appendChild(row);
+              //console.log(data[color[i]][j+1][headNames[g]])
+    
+    
+            }
+          }
+          static_tracker[data["ZMatch Number"]] = temp_obj;
+        }
+
+       var insert_val = static_tracker[data["ZMatch Number"]][data["Alliance Color"]]
+        const row = document.createElement("tr")
+        for(var g=0;g<headNames.length;g++){
+          let color = data["Alliance Color"][0]
+          const cellText = document.createElement("div");
+          const pushinP = document.createElement("p");
+          const cell = document.createElement("td");
+
+          pushinP.innerHTML = data[headNames[g]];
+
+          row.appendChild(cell);
+          cell.appendChild(cellText);
+          cellText.appendChild(pushinP);
+          //console.log(data[color[i]][j+1][headNames[g]])
+
+          row.style.backgroundColor = "var(--" + color + ")"
+          row.style.color = "var(--text-color)"
+        }
+        tblBody.replaceChild(row, insert_val)
+        static_tracker[data["ZMatch Number"]][data["Alliance Color"]] = row
+  }
+  )
   onValue(ref(db, 'Events/Test2022/Robots/'), (snapshot)=>{
     const over = snapshot.val()
     var objNames = Object.keys(over)
     var sort_arr = [];
     for(var r=0;r<objNames.length;r++){
-      var data = over[objNames[r]];
-      var keyNames = Object.keys(data)
+    var data = over[objNames[r]];
+    var keyNames = Object.keys(data)
     var total_value = 0;
     var avg_temp={}
-    for( var i=0; i<val_tracker.length;i++){
+    for(var i=0; i<val_tracker.length;i++){
       var temp_value = 0
       for(var j=0; j<keyNames.length; j++){
         if(val_tracker[i] == "Climb Level"){
@@ -171,117 +276,23 @@ const firebaseConfig = {
   }
   )
 
-  rank_tableHead()
-/*
-  //title names
-  var headNames = [
-  "ZMatch Number",
-  "ZTeam",
-  "Scout Name",
-  "Alliance Color",
-  "Taxi",
-  "Auto High",
-  "Auto Low",
-  "Auto Missed",
-  "Tele High",
-  "Tele Low",
-  "Tele Missed",
-  "Attempted Climb",
-  "Climb Level",
-  "Climb Time",
-  "Defence Time",
-  "Penalty",
-  "Yeet",
-  "Oof",
-  "Drivetrain Type",
-  "Shooter Type"
-];
-var color_tracker = ["b1","b2","b3","r1","r2","r3"]
-  //creating the table layout
-  const tbl = document.createElement("table");
-  const thead = document.createElement("thead")
-  tbl.appendChild(thead)
-  const tblBody = document.createElement("tbody");
-  const headRow = document.createElement("tr")
-  thead.appendChild(headRow)
-  tbl.appendChild(tblBody);
-
-  //creating the labels
-  function tableHead(){
-    for(var b =0; b<headNames.length; b++){
-      const headCell = document.createElement("th");
-      headRow.appendChild(headCell);
-      headCell.classList.add("headCell")
-      headCell.setAttribute("id", `head_cell_${b}`)
-      if(headNames[b] == "ZTeam" || headNames[b] == "ZMatch Number" ){
-        headCell.innerHTML = headNames[b].substring(1)
-      }else{
-        headCell.innerHTML = headNames[b]
+  var tags = document.getElementsByClassName("nav");
+  for (var i=0; i<tags.length; i++){
+    tags[i].addEventListener("mousedown", function(e){
+      let tabName = this.id
+      console.log("Opening: " + tabName)
+      var i, tabcontent;
+  
+      // Get all elements with class="tabcontent" and hide them
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
       }
-    }
-    document.getElementById("tableContainer").appendChild(tbl);
+      var functionName = tabName + "_tableHead";
+      console.log(functionName)
+      window[functionName]();
+      document.getElementById(tabName).style.display = "block";
+    });
   }
 
-
-  //whenever new child is added it adds it to the cell
-  onChildAdded(ref(db, 'Events/Test2022/Matches/'), (snapshot)=>{
-    const data = snapshot.val()
-    
-        if(!static_tracker.hasOwnProperty(data["ZMatch Number"])){
-          var temp_obj = {}
-          for(var i=0; i<6; i++){
-            const row = document.createElement("tr");
-            temp_obj[color_tracker[i]] = row
-            for(var g=0;g<headNames.length;g++){
-
-              const cellText = document.createElement("div");
-              const cell = document.createElement("td");
-
-              if(headNames[g] == "Alliance Color"){
-                cellText.innerHTML = color_tracker[i]
-              }
-              else if(headNames[g] == "ZMatch Number"){
-                cellText.innerHTML = data["ZMatch Number"]
-              }
-              else{
-                cellText.innerHTML = "NA";
-              }
-              
-              row.appendChild(cell);
-              cell.appendChild(cellText);
-              tblBody.appendChild(row);
-              //console.log(data[color[i]][j+1][headNames[g]])
-    
-    
-            }
-          }
-          static_tracker[data["ZMatch Number"]] = temp_obj;
-        }
-
-       var insert_val = static_tracker[data["ZMatch Number"]][data["Alliance Color"]]
-        const row = document.createElement("tr")
-        for(var g=0;g<headNames.length;g++){
-          let color = data["Alliance Color"][0]
-          const cellText = document.createElement("div");
-          const pushinP = document.createElement("p");
-          const cell = document.createElement("td");
-
-          pushinP.innerHTML = data[headNames[g]];
-
-          row.appendChild(cell);
-          cell.appendChild(cellText);
-          cellText.appendChild(pushinP);
-          //console.log(data[color[i]][j+1][headNames[g]])
-
-          row.style.backgroundColor = "var(--" + color + ")"
-          row.style.color = "var(--text-color)"
-        }
-        tblBody.replaceChild(row, insert_val)
-        static_tracker[data["ZMatch Number"]][data["Alliance Color"]] = row
-  }
-  )
-
-
-tableHead()
-*/
 

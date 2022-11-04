@@ -142,7 +142,7 @@ table{
 }
 
 
-#tableContainer{
+#table{
     overflow-y: scroll;
     max-height: 90vh;
     width: auto;
@@ -150,29 +150,57 @@ table{
     text-align: center;
 }
 
-#tableContainer tbody tr {
+#table tbody tr {
     color: rgb(201, 195, 246);
     background-color: #5f5f5f;
     border-bottom: 1px solid #dddddd;
 }
 
-#tableContainer tbody tr:nth-of-type(even) {
+#table tbody tr:nth-of-type(even) {
     background-color: #504f4f;
 }
 
-#tableContainer tbody tr:last-of-type {
+#table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
 
-#tableContainer tbody tr td div {
+#table tbody tr td div {
     height: 100px;
 }
-#tableContainer tbody tr td div p {
+#table tbody tr td div p {
     vertical-align: middle;
 }
 
-#tableContainer tbody tr.active-row {
+#table tbody tr.active-row {
     font-weight: bold;
     color: #009879;
 }
 
+#rank {
+    overflow-y: scroll;
+    max-height: 90vh;
+    width: auto;
+    font-family: var(--font);
+    text-align: center;
+}
+#rank tbody tr {
+    color: rgb(201, 195, 246);
+    background-color: #5f5f5f;
+    border-bottom: 1px solid #dddddd;
+}
+#rank tbody tr:nth-of-type(even) {
+    background-color: #504f4f;
+}
+#rank tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+#rank tbody tr td div {
+    height:auto;
+}
+#ranktbody tr td div p {
+    vertical-align: middle;
+}
+
+.tabcontent {
+    display: none;
+}

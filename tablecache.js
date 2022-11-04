@@ -80,3 +80,4 @@ var val_tracker = [
     "Penalty",
     "Oof"
 ]
+
