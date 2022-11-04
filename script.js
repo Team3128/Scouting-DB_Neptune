@@ -20,6 +20,193 @@ const firebaseConfig = {
   console.log("success")
         
   const db = getDatabase();
+  var robotData;
+  var searchState = true;
+
+  cacheRobotData() 
+
+  function search(team) {
+    let teamList = Object.keys(robotData);
+    if (!teamList.includes(team)) {
+        alert("Robot doesn't exist")
+        return;
+    }
+    document.getElementById("miscData").innerHTML = "";
+    document.getElementById("graphContainer").innerHTML = "";
+    document.getElementById("dataContainer").innerHTML = "";
+    document.getElementById("qataContainer").innerHTML = "";
+
+    if (searchState) {
+        document.getElementById("searchbar").classList.remove("searchmain");
+        document.getElementById("searchbar").classList.add("searchbar");
+        searchState = false;
+    }
+    let teamData = Object.values(robotData) //really fucking scrappy code change this after BB, instead of convert to array use the object
+    teamData = teamData[teamList.indexOf(team)];
+  
+    let pitscoutKeys = null;
+    let pitscout = null;
+    if (typeof teamData.Pitscouting == "undefined") {
+        document.getElementById("imgContainer").innerHTML = "Err 01: Image Not Found"
+    } else {
+        pitscoutKeys = Object.keys(teamData.Pitscouting);
+        pitscout = Object.values(teamData.Pitscouting);
+        let teamDataArr = []
+    }
+    //image
+  
+    if (pitscout != null) {
+        let pitscoutData = pitscout.splice(-1)
+        console.log(pitscoutData);
+        let container = document.getElementById("imgContainer");
+        let image = document.createElement("img");
+        // WORK IN PROGRESS, wait for pitscout data structure to be unfucked
+    }
+  
+    //misc 
+  
+    console.log()
+    let misc_container = document.getElementById("miscData"); //change later to array, not object. really fucking scrappy code v2
+    let misc_arr = [
+        ["Drivetrain", "Shooter"],
+        [teamData.Scouting[Object.keys(teamData.Scouting)[0]]["Drivetrain Type"], teamData.Scouting[Object.keys(teamData.Scouting)[0]]["Shooter Type"]]
+    ]
+    const tbl = document.createElement("table");
+    const tblBody = document.createElement("tbody");
+    for (let i = 0; i < 2; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 2; j++) {
+            const cell = document.createElement("td");
+            cell.innerHTML = misc_arr[j][i];
+            row.appendChild(cell);
+        }
+        tblBody.appendChild(row);
+    }
+    tbl.appendChild(tblBody);
+    misc_container.appendChild(tbl);
+    tbl.setAttribute("border", "2");
+  
+    //graph
+    let data = {}
+    var robotChart = new Chart("graphContainer", {
+        type: "radio",
+        data: data,
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3
+                }
+            }
+        },
+    })
+  
+    //data
+    let matches_data = teamData.Scouting;
+    console.log(matches_data)
+    let matches_numbers = Object.keys(matches_data);
+    let matches_values = Object.values(matches_data);
+  
+    let data_keys = Object.keys(matches_values[0])
+    let data_values = []
+    for (let k = 0; k < matches_numbers.length; k++) {
+        data_values.push(Object.values(matches_values[k]))
+    }
+    console.log(matches_numbers + '\n' + JSON.stringify(matches_values));
+  
+    const tbl2 = document.createElement("table");
+    const tblBody2 = document.createElement("tbody");
+    let temp_data_values = []
+    for (let i = 0; i < matches_numbers.length; i++) {
+  
+        if (i == 0) {
+            var removeValFrom = [8, 11, 13];
+            data_keys = data_keys.filter(function(value, index) {
+                return removeValFrom.indexOf(index) == -1;
+            })
+            const row = document.createElement("tr");
+            for (let j = 0; j < data_keys.length; j++) {
+                const cell = document.createElement("td");
+                cell.innerHTML = data_keys[j];
+                row.appendChild(cell);
+            }
+            tblBody2.appendChild(row);
+        }
+        temp_data_values[i] = stripData(data_values[i], [8, 11, 13])
+        const row = document.createElement("tr");
+        for (let j = 0; j < temp_data_values[i].length; j++) {
+  
+            const cell = document.createElement("td");
+            cell.innerHTML = temp_data_values[i][j];
+            row.appendChild(cell);
+        }
+        tblBody2.appendChild(row);
+    }
+    tbl2.appendChild(tblBody2);
+    document.getElementById("dataContainer").appendChild(tbl2);
+  
+    
+    //qata
+    const tbl3 = document.createElement("table");
+    const tblBody3 = document.createElement("tbody");
+    console.log(matches_numbers + '\n' + JSON.stringify(matches_values));
+    for (let i = 0; i < matches_numbers.length; i++) {
+  
+        if (i == 0) {
+          const row = document.createElement("tr");
+            for (let j = 0; j < 2; j++) {
+                const cell = document.createElement("td");
+                if(j == 0){
+                  cell.innerHTML = "Match"
+                }
+                else{
+                  cell.innerHTML = "QATA"
+                }
+                row.appendChild(cell);
+            }
+            tblBody3.appendChild(row);
+        }
+        const row = document.createElement("tr");
+        for (let j = 0; j < 2; j++) {
+  
+            const cell = document.createElement("td");
+            if(j==0){
+              cell.innerHTML = data_values[i][19]
+            }
+            else{
+              cell.innerHTML = data_values[i][11]
+            }
+            row.appendChild(cell);
+        }
+        tblBody3.appendChild(row);
+    }
+    tbl3.appendChild(tblBody3);
+    document.getElementById("qataContainer").appendChild(tbl3);
+  };
+  window.onload=function(){
+    document.getElementById("searchbar").addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        console.log("enter pressed")
+          event.preventDefault();
+          if (currentTab == "search") {
+            search(document.getElementById("searchbar").value)
+          }
+      }
+    })
+  }
+  function cacheRobotData() {
+    return new Promise((resolve, reject) => {
+        try {
+            get(ref(db, "Events/RRTest22/Robots")).then((snapshot) => {
+                robotData = snapshot.val()
+            })
+        } catch (error) {
+            console.log(error);
+            alert(error);
+            reject();
+        }
+    })
+  }
+
   var headNames = [
     "ZMatch Number",
     "ZTeam",
@@ -278,3 +465,4 @@ const firebaseConfig = {
   table_tableHead()
   rank_tableHead()
 
+  
