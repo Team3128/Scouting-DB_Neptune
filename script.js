@@ -13,8 +13,6 @@ const firebaseConfig = {
     measurementId: "G-8VWYRF9QY6"
 };
   
-  
-
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
@@ -65,6 +63,26 @@ const firebaseConfig = {
   var color_tracker = ["b1","b2","b3","r1","r2","r3"]
 
   //ranking table generation
+  let ranktbl = document.createElement("table");
+  let rankthead = document.createElement("thead")
+  ranktbl.appendChild(rankthead)
+  let ranktblBody = document.createElement("tbody");
+  let rankheadRow = document.createElement("tr")
+  rankthead.appendChild(rankheadRow)
+  ranktbl.appendChild(ranktblBody);
+  //creating the rank labels
+  function rank_tableHead(){
+    for(var b =0; b<rank_HeadNames.length; b++){
+      const headCell = document.createElement("th");
+      rankheadRow.appendChild(headCell);
+      headCell.classList.add("headCell")
+      headCell.setAttribute("id", `head_cell_${b}`)
+      headCell.innerHTML = rank_HeadNames[b]
+    }
+    document.getElementById("rank-container").appendChild(ranktbl);
+  }
+
+  //general table generation
   let tbl = document.createElement("table");
   let thead = document.createElement("thead")
   tbl.appendChild(thead)
@@ -72,27 +90,7 @@ const firebaseConfig = {
   let headRow = document.createElement("tr")
   thead.appendChild(headRow)
   tbl.appendChild(tblBody);
-  //creating the labels
-  function rank_tableHead(){
-    for(var b =0; b<rank_HeadNames.length; b++){
-      const headCell = document.createElement("th");
-      headRow.appendChild(headCell);
-      headCell.classList.add("headCell")
-      headCell.setAttribute("id", `head_cell_${b}`)
-      headCell.innerHTML = rank_HeadNames[b]
-    }
-    document.getElementById("rank").appendChild(tbl);
-  }
-
-  //general table generation
-  tbl = document.createElement("table");
-  thead = document.createElement("thead")
-  tbl.appendChild(thead)
-  tblBody = document.createElement("tbody");
-  headRow = document.createElement("tr")
-  thead.appendChild(headRow)
-  tbl.appendChild(tblBody);
-  //creating the labels
+  //creating the table labels
   function table_tableHead(){
     for(var b =0; b<headNames.length; b++){
       const headCell = document.createElement("th");
@@ -105,9 +103,10 @@ const firebaseConfig = {
         headCell.innerHTML = headNames[b]
       }
     }
-    document.getElementById("table").appendChild(tbl);
+    document.getElementById("table-container").appendChild(tbl);
   }
 
+  //general match data
   onChildAdded(ref(db, 'Events/Test2022/Matches/'), (snapshot)=>{
     const data = snapshot.val()
     
@@ -164,6 +163,7 @@ const firebaseConfig = {
         static_tracker[data["ZMatch Number"]][data["Alliance Color"]] = row
   }
   )
+  //ranking data
   onValue(ref(db, 'Events/Test2022/Robots/'), (snapshot)=>{
     const over = snapshot.val()
     var objNames = Object.keys(over)
@@ -220,7 +220,7 @@ const firebaseConfig = {
     }
     sort_arr.sort(function(a,b){return a-b})
     var rank_counter = 1;
-    tblBody.innerHTML = ""
+    ranktblBody.innerHTML = ""
     for(var g=sort_arr.length-1;g>=0;g--){
       for(var f=0; f<robot_score_key.length;f++){
         if(robot_score_tracker[robot_score_key[f]] == sort_arr[g]){
@@ -262,7 +262,7 @@ const firebaseConfig = {
           cell.appendChild(cellText);
           cellText.appendChild(pushinP);
           }
-          tblBody.appendChild(row)
+          ranktblBody.appendChild(row)
         }
       }
     }
@@ -275,24 +275,6 @@ const firebaseConfig = {
 
   }
   )
-
-  var tags = document.getElementsByClassName("nav");
-  for (var i=0; i<tags.length; i++){
-    tags[i].addEventListener("mousedown", function(e){
-      let tabName = this.id
-      console.log("Opening: " + tabName)
-      var i, tabcontent;
-  
-      // Get all elements with class="tabcontent" and hide them
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      var functionName = tabName + "_tableHead";
-      console.log(functionName)
-      window[functionName]();
-      document.getElementById(tabName).style.display = "block";
-    });
-  }
-
+  table_tableHead()
+  rank_tableHead()
 

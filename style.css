@@ -100,8 +100,6 @@ a:hover{
     cursor:pointer;
 }
 
-
-
 .navLabel{
     margin-left: auto;
     margin-right: auto;
@@ -142,7 +140,7 @@ table{
 }
 
 
-#table{
+#table-container{
     overflow-y: scroll;
     max-height: 90vh;
     width: auto;
@@ -150,54 +148,54 @@ table{
     text-align: center;
 }
 
-#table tbody tr {
+#table-container tbody tr {
     color: rgb(201, 195, 246);
     background-color: #5f5f5f;
     border-bottom: 1px solid #dddddd;
 }
 
-#table tbody tr:nth-of-type(even) {
+#table-container tbody tr:nth-of-type(even) {
     background-color: #504f4f;
 }
 
-#table tbody tr:last-of-type {
+#table-container tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
 
-#table tbody tr td div {
-    height: 100px;
+#table-container tbody tr td div {
+    height: auto;
 }
-#table tbody tr td div p {
+#table-container tbody tr td div p {
     vertical-align: middle;
 }
 
-#table tbody tr.active-row {
+#table-container tbody tr.active-row {
     font-weight: bold;
     color: #009879;
 }
 
-#rank {
+#rank-container {
     overflow-y: scroll;
     max-height: 90vh;
     width: auto;
     font-family: var(--font);
     text-align: center;
 }
-#rank tbody tr {
+#rank-container tbody tr {
     color: rgb(201, 195, 246);
     background-color: #5f5f5f;
     border-bottom: 1px solid #dddddd;
 }
-#rank tbody tr:nth-of-type(even) {
+#rank-container tbody tr:nth-of-type(even) {
     background-color: #504f4f;
 }
-#rank tbody tr:last-of-type {
+#rank-container tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
-#rank tbody tr td div {
+#rank-container tbody tr td div {
     height:auto;
 }
-#ranktbody tr td div p {
+#rank-containertbody tr td div p {
     vertical-align: middle;
 }
 
