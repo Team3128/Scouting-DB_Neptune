@@ -4,3 +4,14 @@ const settings = {
         "skipColumnNumberList": [13, 17, 18, 19, 20, 21]
     }
 }
+
+function openTab(tabName) {
+    console.log("Opening: " + tabName)
+    var i, tabcontent;
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+       tabcontent[i].style.display = "none";
+    }
+    document.getElementById(tabName+"-container").style.display = "block";
+}
