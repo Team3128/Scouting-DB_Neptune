@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
   </head>
   <body>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
   <script src="pullMatch.js"></script>
   <script src="config.js"></script>
 	<script src="script.js" type="module"></script>
@@ -57,23 +58,24 @@
 
   
     </div>
-    <div id="view">
+    <div id="search">
       <div id="tableContainer" style="display:none" class="viewpage">
         
       </div>
       <div id="searchContainer" class="viewpage">
-        <input id="searchbar" class="searchmain" placeholder="Enter team number here"></input>
-        <div id="teamDisplay">3128</div>
-        <div id="tabBtnContainer">
+       
+        <div id="tabBtnContainer" class="hide">
 
         </div>
-        <div id="imgContainer">
-          <img></img>
+        <div id="imgContainer" class="">
         </div>
-        <div id="miscData"></div>
-        <div id="graphContainer"></div>
-        <div id="dataContainer"></div>
-        <div id="qataContainer"></div>
+        <div id="miscData" class="">
+
+        </div>
+        <div id="graphContainer" style="color: white; font-size: 1.25rem;"> PLACEHOLDER CHART will fix later :)</div>
+        <div id="dataContainer" ></div>
+        <div id="qataContainer" ></div>
+        <input id="searchbar" class="searchmain" placeholder="Enter team number here"></input>
       </div>
     </div>
   </div>
