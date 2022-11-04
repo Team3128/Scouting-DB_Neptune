@@ -66,7 +66,7 @@ var color_tracker = ["b1","b2","b3","r1","r2","r3"]
         headCell.innerHTML = headNames[b]
       }
     }
-    document.getElementById("tableContainer").appendChild(tbl);
+    document.getElementById("table").appendChild(tbl);
   }
 
 
