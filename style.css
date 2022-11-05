@@ -296,7 +296,7 @@ table{
 }
 
 #graphContainer{
-    grid-row: 7/11;
+    grid-row: 8/11;
     grid-column: 1/3;
 }
 .chartjs-render-monitor{

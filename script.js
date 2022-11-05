@@ -238,7 +238,7 @@ const db = to();
     if(pitlist.includes(team)){
       var pitData = robot_pitData[team]
       let pits_container = document.getElementById("pitsData"); //change later to array, not object. really fucking scrappy code v2
-      var pitstuff = ["Robot Weight", "Number of Motors FOR DRIVETRAIN", "Motor Type"]
+      var pitstuff = ["Robot Weight", "Drivetrain Motors", "Motor Type"]
 
       var pitDatatimes = Object.keys(pitData)
       var weight = false;
