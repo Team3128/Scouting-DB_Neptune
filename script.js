@@ -230,7 +230,10 @@ const db = to();
         let link = imgData[imgamount[0]]["Image of Robot"]
         let container = document.getElementById("imgContainer");
         let image = document.createElement("img");
-        image.style.width="100%";
+        image.style.width="auto";
+        image.style.maxWidth="100%";
+        image.style.height="auto";
+        image.style.maxHeight="100%";
         //image.style.height="100%";
         image.src = link
         container.appendChild(image)
