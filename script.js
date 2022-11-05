@@ -105,7 +105,10 @@ const db = to();
     var holder = document.createElement("canvas")
     var robotChart = new Chart(holder, {
         type: "radar",
-        data: marksData
+        data: marksData,
+        options:{
+
+        }
     })
     document.getElementById("graphContainer").appendChild(holder)
 
@@ -340,7 +343,8 @@ const db = to();
 
   //ranking table generation
   let ranktbl = document.createElement("table");
-  let rankthead = document.createElement("thead")
+  ranktbl.setAttribute("id", "ranktbl");
+  let rankthead = document.createElement("thead");
   ranktbl.appendChild(rankthead)
   let ranktblBody = document.createElement("tbody");
   let rankheadRow = document.createElement("tr")
