@@ -1,40 +1,36 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.4/firebase-analytics.js";
-import { getDatabase, ref, onValue, get, set, onChildChanged, onChildAdded} from "https://www.gstatic.com/firebasejs/9.9.4/firebase-database.js"
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAO1aIe_fTZB6duj8YIRyYcLTINlcP196w",
-    authDomain: "escouting-7b4e0.firebaseapp.com",
-    databaseURL: "https://escouting-7b4e0-default-rtdb.firebaseio.com",
-    projectId: "escouting-7b4e0",
-    storageBucket: "escouting-7b4e0.appspot.com",
-    messagingSenderId: "377179821867",
-    appId: "1:377179821867:web:cedab35ab708c12986976e",
-    measurementId: "G-8VWYRF9QY6"
+  apiKey: "AIzaSyAO1aIe_fTZB6duj8YIRyYcLTINlcP196w",
+  authDomain: "escouting-7b4e0.firebaseapp.com",
+  databaseURL: "https://escouting-7b4e0-default-rtdb.firebaseio.com",
+  projectId: "escouting-7b4e0",
+  storageBucket: "escouting-7b4e0.appspot.com",
+  messagingSenderId: "377179821867",
+  appId: "1:377179821867:web:cedab35ab708c12986976e",
+  measurementId: "G-8VWYRF9QY6"
 };
-  
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const database = getDatabase(app);
 
-  console.log("success")
-        
-  const db = getDatabase();
+const app = initializeApp(firebaseConfig);
+const database = to(app);
+console.log("success")
+
+const db = to();
+
   var robotData;
   var robot_pitData;
   var robot_imgData;
   var searchState = true;
 
      function load(){
-       get(ref(db, "Events/Test2022/Robots")).then((snapshot) => {
+       pr(sr(db, "Events/Test2022/Robots")).then((snapshot) => {
         robotData = snapshot.val()
         console.log(robotData)
       })
-       get(ref(db, "Events/Test2022/Pitscout")).then((snapshot) => {
+       pr(sr(db, "Events/Test2022/Pitscout")).then((snapshot) => {
         robot_pitData = snapshot.val()
         console.log(robot_pitData)
       })
-       get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
+       pr(sr(db, "Events/Test2022/Image")).then((snapshot) => {
         robot_imgData = snapshot.val()
         console.log(robot_imgData)
       })
@@ -387,7 +383,7 @@ const firebaseConfig = {
   }
 
   //general match data
-  onChildAdded(ref(db, 'Events/Test2022/Matches/'), (snapshot)=>{
+  vr(sr(db, 'Events/Test2022/Matches/'), (snapshot)=>{
     const data = snapshot.val()
     
         if(!static_tracker.hasOwnProperty(data["ZMatch Number"])){
@@ -444,7 +440,7 @@ const firebaseConfig = {
   }
   )
   //ranking data
-  onValue(ref(db, 'Events/Test2022/Robots/'), (snapshot)=>{
+  yr(sr(db, 'Events/Test2022/Robots/'), (snapshot)=>{
     const over = snapshot.val()
     var objNames = Object.keys(over)
     var sort_arr = [];
