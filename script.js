@@ -25,19 +25,32 @@ const firebaseConfig = {
   var robot_imgData;
   var searchState = true;
 
-  function search(team) {
-    get(ref(db, "Events/Test2022/Robots")).then((snapshot) => {
-      robotData = snapshot.val()
-      console.log(robotData)
+  get(ref(db, "Events/Test2022/Robots")).then((snapshot) => {
+    robotData = snapshot.val()
+    console.log(robotData)
   })
   get(ref(db, "Events/Test2022/Pitscout")).then((snapshot) => {
     robot_pitData = snapshot.val()
     console.log(robot_pitData)
-})
-get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
-  robot_imgData = snapshot.val()
-  console.log(robot_imgData)
-})
+  })
+  get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
+    robot_imgData = snapshot.val()
+    console.log(robot_imgData)
+  })
+
+  function search(team) {
+    get(ref(db, "Events/Test2022/Robots")).then((snapshot) => {
+      robotData = snapshot.val()
+      console.log(robotData)
+    })
+    get(ref(db, "Events/Test2022/Pitscout")).then((snapshot) => {
+      robot_pitData = snapshot.val()
+      console.log(robot_pitData)
+    })
+    get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
+      robot_imgData = snapshot.val()
+      console.log(robot_imgData)
+    })
 
     let robotList = Object.keys(robotData);
     let pitlist = Object.keys(robot_pitData);
@@ -46,10 +59,12 @@ get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
         alert("Robot doesn't exist")
         return;
     }
+
     document.getElementById("miscData").innerHTML = "";
     document.getElementById("graphContainer").innerHTML = "";
     document.getElementById("dataContainer").innerHTML = "";
     document.getElementById("qataContainer").innerHTML = "";
+    document.getElementById("imgContainer").innerHTML = "";
 
     if (searchState) {
         document.getElementById("searchbar").classList.remove("searchmain");
@@ -73,14 +88,17 @@ get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
         let teamDataArr = []
     }*/
     //image
-    var imgamount = Object.keys(imgData)
-    if (imgamount.length != 0) {
+    if (!imgData) {
+      document.getElementById("imgContainer").innerHTML = "Err 01: Image Not Found"
+    } else {
+      var imgamount = Object.keys(imgData)
+      if (imgamount.length != 0) {
         let link = imgData[imgamount[0]]["Image of Robot"]
         let container = document.getElementById("imgContainer");
         let image = document.createElement("img");
         image.src = link
         container.appendChild(image)
-        // WORK IN PROGRESS, wait for pitscout data structure to be unfucked
+      }
     }
   
     //misc 
@@ -103,7 +121,7 @@ get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
     }
     tbl.appendChild(tblBody);
     misc_container.appendChild(tbl);
-    tbl.setAttribute("border", "2");
+    //tbl.setAttribute("border", "2");
 
   
     //graph
@@ -112,7 +130,7 @@ get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
       labels: graphLabels,
       datasets: [{
         label: team,
-        backgroundColor: "rgba(200,0,0,0.2)",
+        backgroundColor: "rgba(255,0,0,0.2)",
         data: [
           robot_avg_tracker[team]["Taxi"],
           robot_avg_tracker[team]["Auto High"],
@@ -178,6 +196,10 @@ get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
         cell.appendChild(cellText);
         cellText.appendChild(pushinP);
         //console.log(data[color[i]][j+1][headNames[g]])
+        
+        let color = teamData[matches[f]]["Alliance Color"][0];
+        row.style.backgroundColor = "var(--" + color + ")"
+        row.style.color = "var(--text-color)"
   
       }
       tb2.appendChild(row)
@@ -186,37 +208,46 @@ get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
     
     //qata
     let tb3 = document.createElement("table");
-  let tb3thead = document.createElement("thead")
-  tb3.appendChild(tb3thead)
-  let tb3Body = document.createElement("tbody");
-  let tb3headRow = document.createElement("tr")
-  tb3thead.appendChild(tb3headRow)
-  tb3.appendChild(tb3Body);
-  var headCell = document.createElement("th");
-  tb3headRow.appendChild(headCell);
-  headCell.classList.add("headCell")
-  headCell.setAttribute("id", `head_cell_${b}`)
-  headCell.innerHTML = "Matches"
-  headCell = document.createElement("th");
-  tb3headRow.appendChild(headCell);
-  headCell.classList.add("headCell")
-  headCell.setAttribute("id", `head_cell_${b}`)
-  headCell.innerHTML = "QATA"
-  tb3.appendChild(tb3Body);
+    let tb3thead = document.createElement("thead")
+    tb3.appendChild(tb3thead)
+    let tb3Body = document.createElement("tbody");
+    let tb3headRow = document.createElement("tr")
+    tb3thead.appendChild(tb3headRow)
+    tb3.appendChild(tb3Body);
+    var headCell = document.createElement("th");
+    tb3headRow.appendChild(headCell);
+    headCell.classList.add("headCell")
+    headCell.setAttribute("id", `head_cell_${b}`)
+    headCell.innerHTML = "Matches"
+    headCell = document.createElement("th");
+    tb3headRow.appendChild(headCell);
+    headCell.classList.add("headCell")
+    headCell.setAttribute("id", `head_cell_${b}`)
+    headCell.innerHTML = "QATA"
+    tb3.appendChild(tb3Body);
     for(var d=0;d<matches.length;d++){
       var row = document.createElement("tr");
-      const cellText = document.createElement("div");
-        const pushinP = document.createElement("p");
-        const cell = document.createElement("td");
+      var cellText = document.createElement("div");
+      var pushinP = document.createElement("p");
+      var cell = document.createElement("td");
   
-        pushinP.innerHTML = teamData[matches[d]]["QATA"];
+      pushinP.innerHTML = matches[d];
   
-        row.appendChild(cell);
-        cell.appendChild(cellText);
-        cellText.appendChild(pushinP);
-        tb3Body.appendChild(row)
-    }
+      row.appendChild(cell);
+      cell.appendChild(cellText);
+      cellText.appendChild(pushinP);
 
+      cellText = document.createElement("div");
+      pushinP = document.createElement("p");
+      cell = document.createElement("td");
+  
+      pushinP.innerHTML = teamData[matches[d]]["QATA"];
+  
+      row.appendChild(cell);
+      cell.appendChild(cellText);
+      cellText.appendChild(pushinP);
+      tb3Body.appendChild(row)
+    }
 
     document.getElementById("qataContainer").appendChild(tb3);
     
@@ -370,7 +401,7 @@ get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
           cell.appendChild(cellText);
           cellText.appendChild(pushinP);
           //console.log(data[color[i]][j+1][headNames[g]])
-
+          
           row.style.backgroundColor = "var(--" + color + ")"
           row.style.color = "var(--text-color)"
         }
