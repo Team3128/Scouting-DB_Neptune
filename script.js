@@ -22,15 +22,15 @@ const db = to();
   var searchState = true;
 
      function load(){
-       pr(sr(db, "Events/Test2022/Robots")).then((snapshot) => {
+       pr(sr(db, "Events/BB2022/Robots")).then((snapshot) => {
         robotData = snapshot.val()
         console.log(robotData)
       })
-       pr(sr(db, "Events/Test2022/Pitscout")).then((snapshot) => {
+       pr(sr(db, "Events/BB2022/Pitscout")).then((snapshot) => {
         robot_pitData = snapshot.val()
         console.log(robot_pitData)
       })
-       pr(sr(db, "Events/Test2022/Image")).then((snapshot) => {
+       pr(sr(db, "Events/BB2022/Image")).then((snapshot) => {
         robot_imgData = snapshot.val()
         console.log(robot_imgData)
       })
@@ -387,7 +387,7 @@ const db = to();
   }
 
   //general match data
-  vr(sr(db, 'Events/Test2022/Matches/'), (snapshot)=>{
+  vr(sr(db, 'Events/BB2022/Matches/'), (snapshot)=>{
     const data = snapshot.val()
     
         if(!static_tracker.hasOwnProperty(data["ZMatch Number"])){
@@ -444,7 +444,7 @@ const db = to();
   }
   )
   //ranking data
-  yr(sr(db, 'Events/Test2022/Robots/'), (snapshot)=>{
+  yr(sr(db, 'Events/BB2022/Robots/'), (snapshot)=>{
     const over = snapshot.val()
     var objNames = Object.keys(over)
     var sort_arr = [];
