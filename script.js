@@ -231,7 +231,7 @@ const db = to();
         let container = document.getElementById("imgContainer");
         let image = document.createElement("img");
         image.style.width="100%";
-        image.style.height="100%";
+        //image.style.height="100%";
         image.src = link
         container.appendChild(image)
       }
