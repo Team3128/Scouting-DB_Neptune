@@ -9,65 +9,82 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
   </head>
   <body>
-  <script src="pullMatch.js"></script>
-  <script src="config.js"></script>
-  <script src="tablecache.js"></script>
-	<script src="script.js" type="module"></script>
-
   <div id="main">
 
     <div id="sidebar">
-      
 
-      <div class="nav">
+      <div class="nav" id="table" onclick="openTab('table')">
         <object data="assets/home.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Home</div>
       </div>
 
-      <div class="nav">
-        <object data="assets/search.svg" type="image/svg+xml" class="navImg"></object>
-        <div class="navLabel">Search</div>
-      </div>
-
-      <div class="nav">
-        <object data="assets/compare.svg" type="image/svg+xml" class="navImg"></object>
-        <div class="navLabel">Compare</div>
-      </div>
-
-      <div class="nav">
-        <object data="assets/predict.svg" type="image/svg+xml" class="navImg"></object>
-        <div class="navLabel">Predict</div>
-      </div>
-
-      <div class="nav">
+      <div class="nav" id="rank" onclick="openTab('rank')">
         <object data="assets/star.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Rankings</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="table" onclick="openTab('search')">
+        <object data="assets/search.svg" type="image/svg+xml" class="navImg"></object>
+        <div class="navLabel">Search</div>
+      </div>
+
+      <div class="nav" id="table" onclick="openTab('compare')">
+        <object data="assets/compare.svg" type="image/svg+xml" class="navImg"></object>
+        <div class="navLabel">Compare</div>
+      </div>
+
+      <div class="nav" id="table" onclick="openTab('predict')">
+        <object data="assets/predict.svg" type="image/svg+xml" class="navImg"></object>
+        <div class="navLabel">Predict</div>
+      </div>
+
+      <div class="nav" id="table" onclick="openTab('upload')">
         <object data="assets/upload.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Upload</div>
       </div>
 
-      <div class="nav">
+      <div class="nav" id="table" onclick="openTab('settings')"> 
         <object data="assets/settings.svg" type="image/svg+xml" class="navImg"></object>
         <div class="navLabel">Settings</div>
       </div>
 
-
-  
     </div>
-    <div id="table" style="display:hidden">
+    <div id="table-container" class="tabcontent" style="display:block">
       
     </div>
+    <div id="search-container" class="tabcontent" style="display:hidden">
+      <div id="tableContainer" style="display:none" class="viewpage">
+        
+      </div>
+      <div id="searchContainer" class="viewpage">
+        <div id="tabBtnContainer" class="hide">
 
-    <div id="view">
+        </div>
+        <div id="imgContainer" class="">
+        </div>
+        <div id="pitsData" class="">
 
+        </div>
+        <div id="miscData" class="">
+
+        </div>
+        <div id="graphContainer" style="color: white; font-size: 1.25rem;"></div>
+        <div id="dataContainer" ></div>
+        <div id="qataContainer" ></div>
+        <input id="searchbar" class="searchmain" placeholder="Enter team number here"></input>
+      </div>
     </div>
-    <div id="rank">
+    <div id="rank-container" class="tabcontent" style="display:hidden">
 
     </div>
   </div>
+  <script src="pullMatch.js"></script>
+  <script src="config.js"></script>
+  <script src="tablecache.js"></script>
+  <script src="initapp.js"></script>
+  <script src="initfirefuncs.js"></script>
+	<script src="script.js"></script>
+  <script src="chart.js"></script>
 
   </body>
 </html>
