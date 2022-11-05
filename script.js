@@ -63,7 +63,8 @@ const db = to();
     if(robotList.includes(team)){
       var teamData = robotData[team]
     var matches = Object.keys(teamData)
-      //misc 
+    
+    //misc 
   
     let misc_container = document.getElementById("miscData"); //change later to array, not object. really fucking scrappy code v2
     let misc_arr = [
@@ -229,6 +230,7 @@ const db = to();
         let link = imgData[imgamount[0]]["Image of Robot"]
         let container = document.getElementById("imgContainer");
         let image = document.createElement("img");
+        image.style.width="100%";
         image.src = link
         container.appendChild(image)
       }
