@@ -25,33 +25,23 @@ const firebaseConfig = {
   var robot_imgData;
   var searchState = true;
 
-  get(ref(db, "Events/Test2022/Robots")).then((snapshot) => {
-    robotData = snapshot.val()
-    console.log(robotData)
-  })
-  get(ref(db, "Events/Test2022/Pitscout")).then((snapshot) => {
-    robot_pitData = snapshot.val()
-    console.log(robot_pitData)
-  })
-  get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
-    robot_imgData = snapshot.val()
-    console.log(robot_imgData)
-  })
+     function load(){
+       get(ref(db, "Events/Test2022/Robots")).then((snapshot) => {
+        robotData = snapshot.val()
+        console.log(robotData)
+      })
+       get(ref(db, "Events/Test2022/Pitscout")).then((snapshot) => {
+        robot_pitData = snapshot.val()
+        console.log(robot_pitData)
+      })
+       get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
+        robot_imgData = snapshot.val()
+        console.log(robot_imgData)
+      })
+    }
 
   function search(team) {
-    get(ref(db, "Events/Test2022/Robots")).then((snapshot) => {
-      robotData = snapshot.val()
-      console.log(robotData)
-    })
-    get(ref(db, "Events/Test2022/Pitscout")).then((snapshot) => {
-      robot_pitData = snapshot.val()
-      console.log(robot_pitData)
-    })
-    get(ref(db, "Events/Test2022/Image")).then((snapshot) => {
-      robot_imgData = snapshot.val()
-      console.log(robot_imgData)
-    })
-
+    load()
     let robotList = Object.keys(robotData);
     let pitlist = Object.keys(robot_pitData);
     let imglist = Object.keys(robot_imgData);
@@ -65,43 +55,19 @@ const firebaseConfig = {
     document.getElementById("dataContainer").innerHTML = "";
     document.getElementById("qataContainer").innerHTML = "";
     document.getElementById("imgContainer").innerHTML = "";
+    document.getElementById("pitsData").innerHTML = "";
 
     if (searchState) {
         document.getElementById("searchbar").classList.remove("searchmain");
         document.getElementById("searchbar").classList.add("searchbar");
         searchState = false;
     }
-    var teamData = robotData[team]
+
+
+    if(robotList.includes(team)){
+      var teamData = robotData[team]
     var matches = Object.keys(teamData)
-    var pitData = robot_pitData[team]
-    var imgData = robot_imgData[team]
-    
-  
-    //pitshit
-    /*let pitscoutKeys = null;
-    let pitscout = null;
-    if (imgData == "undefined") {
-        document.getElementById("imgContainer").innerHTML = "Err 01: Image Not Found"
-    } else {
-        pitscoutKeys = Object.keys(teamData.Pitscouting);
-        pitscout = Object.values(teamData.Pitscouting);
-        let teamDataArr = []
-    }*/
-    //image
-    if (!imgData) {
-      document.getElementById("imgContainer").innerHTML = "Err 01: Image Not Found"
-    } else {
-      var imgamount = Object.keys(imgData)
-      if (imgamount.length != 0) {
-        let link = imgData[imgamount[0]]["Image of Robot"]
-        let container = document.getElementById("imgContainer");
-        let image = document.createElement("img");
-        image.src = link
-        container.appendChild(image)
-      }
-    }
-  
-    //misc 
+      //misc 
   
     let misc_container = document.getElementById("miscData"); //change later to array, not object. really fucking scrappy code v2
     let misc_arr = [
@@ -123,7 +89,6 @@ const firebaseConfig = {
     misc_container.appendChild(tbl);
     //tbl.setAttribute("border", "2");
 
-  
     //graph
     var graphLabels = ["Taxi", "Auto High", "Tele High", "Climb Level", "Defence Time"]
     var marksData = {
@@ -251,6 +216,75 @@ const firebaseConfig = {
 
     document.getElementById("qataContainer").appendChild(tb3);
     
+    
+    }else{
+      document.getElementById("miscData").innerHTML = "NO MISC AVAILABLE YET";
+    document.getElementById("graphContainer").innerHTML = "NO GRAPH AVAILABLE YET";
+    document.getElementById("dataContainer").innerHTML = "NO DATA AVAILABLE YET";
+    document.getElementById("qataContainer").innerHTML = "NO QATA AVAILABLE YET";
+    }
+    if(imglist.includes(team)){
+      var imgData = robot_imgData[team]
+      var imgamount = Object.keys(imgData)
+      if (imgamount.length != 0) {
+        let link = imgData[imgamount[0]]["Image of Robot"]
+        let container = document.getElementById("imgContainer");
+        let image = document.createElement("img");
+        image.src = link
+        container.appendChild(image)
+      }
+    }else{
+      document.getElementById("imgContainer").innerHTML = "NO IMAGE AVAILABLE YET";
+    }
+    if(pitlist.includes(team)){
+      var pitData = robot_pitData[team]
+      let pits_container = document.getElementById("pitsData"); //change later to array, not object. really fucking scrappy code v2
+      var pitstuff = ["Robot Weight", "Number of Motors FOR DRIVETRAIN", "Motor Type"]
+
+      var pitDatatimes = Object.keys(pitData)
+      var weight = false;
+      var motornum = false;
+      var motortyp = false;
+      var temp_trac = ["NA","NA","NA"]
+      for(var e=0;e<pitDatatimes.length;e++){
+        if(weight && motornum && motortyp){
+          break;
+        }
+        if(pitData[pitDatatimes[e]]["Robot Weight"] != "None"){
+          temp_trac[0] = (pitData[pitDatatimes[e]]["Robot Weight"])
+          weight = true;
+        }
+        if(pitData[pitDatatimes[e]]["Number of Motors FOR DRIVETRAIN"] != "None"){
+          temp_trac[1] = (pitData[pitDatatimes[e]]["Number of Motors FOR DRIVETRAIN"])
+          motornum = true;
+        }
+        if(pitData[pitDatatimes[e]]["Motor Type"] != "None"){
+          temp_trac[2] = (pitData[pitDatatimes[e]]["Motor Type"])
+          motortyp = true;
+        }
+      }
+    let misc_arr = [
+        pitstuff,
+        temp_trac
+    ]
+    const tbl = document.createElement("table");
+    const tblBody = document.createElement("tbody");
+    for (let i = 0; i < 3; i++) {
+        const row = document.createElement("tr");
+        for (let j = 0; j < 2; j++) {
+            const cell = document.createElement("td");
+            cell.innerHTML = misc_arr[j][i];
+            row.appendChild(cell);
+        }
+        tblBody.appendChild(row);
+    }
+    tbl.appendChild(tblBody);
+    pits_container.appendChild(tbl);
+    }else{
+      document.getElementById("pitsData").innerHTML = "NO PIT DATA AVAILABLE YET";
+    }
+    
+
   };
   window.onload=function(){
     document.getElementById("searchbar").addEventListener("keypress", function(event) {
