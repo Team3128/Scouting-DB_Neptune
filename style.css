@@ -285,6 +285,15 @@ table{
 #qataContainer{
     grid-row: 7/11;
     grid-column: 3/11;
+    overflow-y:scroll;
+}
+#qataContainer table{
+    width:auto;
+    overflow-y: scroll;
+}
+#qataContainer tr td:last-of-type {
+    height:auto;
+    width:100%;
 }
 
 .hide{
