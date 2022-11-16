@@ -71,17 +71,10 @@ const db = to();
       //gets the specific robots data
       var teamData = robotData[team]
     var matches = Object.keys(teamData)
-<<<<<<< Updated upstream
-    
-    //misc 
-  
-    let misc_container = document.getElementById("miscData"); //change later to array, not object. really fucking scrappy code v2
-=======
     //as of right now it is called misc, should be changed for redability
     //displays the drive train and shooter from the match date from scouting app, code should be changed
     //to scan over the data and take the most said drivetrain/shooter, not just taking the first matches data
     let misc_container = document.getElementById("miscData"); 
->>>>>>> Stashed changes
     let misc_arr = [
         ["Drivetrain", "Shooter"],
         [teamData[matches[0]]["Drivetrain Type"], teamData[matches[0]]["Shooter Type"]]
