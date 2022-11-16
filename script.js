@@ -1,4 +1,5 @@
 
+//CONNECTING TO DB, change links under firebaseConfig to connect to db
 const firebaseConfig = {
   apiKey: "AIzaSyAO1aIe_fTZB6duj8YIRyYcLTINlcP196w",
   authDomain: "escouting-7b4e0.firebaseapp.com",
@@ -16,11 +17,14 @@ console.log("success")
 
 const db = to();
 
+//
+//=======================
+//SEARCH TAB
   var robotData;
   var robot_pitData;
   var robot_imgData;
   var searchState = true;
-
+//gathers all the data under the path, not sure what it returns if path does not exist yet
      function load(){
        pr(sr(db, "Events/BB2022/Robots")).then((snapshot) => {
         robotData = snapshot.val()
@@ -35,38 +39,49 @@ const db = to();
         console.log(robot_imgData)
       })
     }
-
+//displays all the data that can be gathered
   function search(team) {
     load()
+    //error appears if a path does not exist in the db, also for some reason needs to be run twice
+    //the first time when trying to search for a robot
     let robotList = Object.keys(robotData);
     let pitlist = Object.keys(robot_pitData);
     let imglist = Object.keys(robot_imgData);
+    //if the robot does not exist in any off the paths, tell that the robot does not exist
     if (!robotList.includes(team) && !pitlist.includes(team) && !imglist.includes(team)) {
         alert("Robot doesn't exist")
         return;
     }
-
+    //reset the display page back to blank
     document.getElementById("miscData").innerHTML = "";
     document.getElementById("graphContainer").innerHTML = "";
     document.getElementById("dataContainer").innerHTML = "";
     document.getElementById("qataContainer").innerHTML = "";
     document.getElementById("imgContainer").innerHTML = "";
     document.getElementById("pitsData").innerHTML = "";
-
+    //transition to display page
     if (searchState) {
         document.getElementById("searchbar").classList.remove("searchmain");
         document.getElementById("searchbar").classList.add("searchbar");
         searchState = false;
     }
 
-
+    //if there is scouting app data from the robot, display it here, otherwise say that there is current none avail
     if(robotList.includes(team)){
+      //gets the specific robots data
       var teamData = robotData[team]
     var matches = Object.keys(teamData)
+<<<<<<< Updated upstream
     
     //misc 
   
     let misc_container = document.getElementById("miscData"); //change later to array, not object. really fucking scrappy code v2
+=======
+    //as of right now it is called misc, should be changed for redability
+    //displays the drive train and shooter from the match date from scouting app, code should be changed
+    //to scan over the data and take the most said drivetrain/shooter, not just taking the first matches data
+    let misc_container = document.getElementById("miscData"); 
+>>>>>>> Stashed changes
     let misc_arr = [
         ["Drivetrain", "Shooter"],
         [teamData[matches[0]]["Drivetrain Type"], teamData[matches[0]]["Shooter Type"]]
@@ -84,9 +99,10 @@ const db = to();
     }
     tbl.appendChild(tblBody);
     misc_container.appendChild(tbl);
-    //tbl.setAttribute("border", "2");
 
-    //graph
+
+    //displays the graph, is really janky due to lack of time, pulls robot avg from robot_avg_tracker in table cache.js
+    //takes taxi, auto high, tele high, climb level and defense time avg to display
     var graphLabels = ["Taxi", "Auto High", "Tele High", "Climb Level", "Defence Time"]
     var marksData = {
       labels: graphLabels,
@@ -114,7 +130,8 @@ const db = to();
     document.getElementById("graphContainer").appendChild(holder)
 
     
-    //data
+    //displays the data from the all the matches the robot played
+    //this is the specific data that we want pulled from the matches
     var data_display = [
       "ZMatch Number",
       "Alliance Color",
@@ -133,6 +150,7 @@ const db = to();
       "Yeet",
       "Oof"
     ];
+  //using the data_display above, it creates a table header and prepares the body for code below
     let tb2 = document.createElement("table");
   let tb2thead = document.createElement("thead")
   tb2.appendChild(tb2thead)
@@ -148,6 +166,8 @@ const db = to();
       headCell.innerHTML = data_display[b]
     }
     document.getElementById("dataContainer").appendChild(tb2);
+    //this is the code that goes into the body, going match by match and adding a new row to the table body for each match
+    //currentlty is not ordered by match, due to matching numbering error (01 is counted as a string, messing things up)
     for(var f=0;f<matches.length;f++){
        var row = document.createElement("tr");
       for(var g=0;g<data_display.length;g++){
@@ -171,7 +191,8 @@ const db = to();
     }
   
     
-    //qata
+    //similar to the code above for the match data, it pulls from the same spot except this time it is just the qata
+    //below for setting up the qata display is bad code, can be condensed, cleaned up
     let tb3 = document.createElement("table");
     let tb3thead = document.createElement("thead")
     tb3.appendChild(tb3thead)
@@ -190,6 +211,7 @@ const db = to();
     headCell.setAttribute("id", `head_cell_${b}`)
     headCell.innerHTML = "QATA"
     tb3.appendChild(tb3Body);
+    //like above code it gets all the qata by match and displays it, out of order as of right now, problem with formatting in db
     for(var d=0;d<matches.length;d++){
       var row = document.createElement("tr");
       var cellText = document.createElement("div");
@@ -216,13 +238,14 @@ const db = to();
 
     document.getElementById("qataContainer").appendChild(tb3);
     
-    
-    }else{
+    }else{ //just displays that the data is not available
       document.getElementById("miscData").innerHTML = "NO MISC AVAILABLE YET";
     document.getElementById("graphContainer").innerHTML = "NO GRAPH AVAILABLE YET";
     document.getElementById("dataContainer").innerHTML = "NO DATA AVAILABLE YET";
     document.getElementById("qataContainer").innerHTML = "NO QATA AVAILABLE YET";
     }
+
+    //dispalys image, if robot does not exist under it say data unavailable
     if(imglist.includes(team)){
       var imgData = robot_imgData[team]
       var imgamount = Object.keys(imgData)
@@ -241,12 +264,15 @@ const db = to();
     }else{
       document.getElementById("imgContainer").innerHTML = "NO IMAGE AVAILABLE YET";
     }
+    //Pitscout data, want to make it so it displays all pitscouted data but lack of time could not do it
+    // also displays no data if the robot does not exist
     if(pitlist.includes(team)){
       var pitData = robot_pitData[team]
       let pits_container = document.getElementById("pitsData"); //change later to array, not object. really fucking scrappy code v2
       var pitstuff = ["Robot Weight", "Drivetrain Motors", "Motor Type"]
 
       var pitDatatimes = Object.keys(pitData)
+      //goes through all the pitscouted data to get all the info that is wanted, will stop once the first instance of all wanted are provided
       var weight = false;
       var motornum = false;
       var motortyp = false;
@@ -272,6 +298,7 @@ const db = to();
         pitstuff,
         temp_trac
     ]
+    //displays the data if got, else shows up as NA
     const tbl = document.createElement("table");
     const tblBody = document.createElement("tbody");
     for (let i = 0; i < 3; i++) {
@@ -291,6 +318,7 @@ const db = to();
     
 
   };
+  //detects when ever a robot is searched for
   window.onload=function(){
     document.getElementById("searchbar").addEventListener("keypress", function(event) {
       if (event.key === "Enter") {
@@ -302,9 +330,11 @@ const db = to();
       }
     })
   }
+  //
+  //HOME TAB AND RANK TAB
+  //
 
-
-
+  //table head names for the home tab
   var headNames = [
     "ZMatch Number",
     "ZTeam",
@@ -327,6 +357,7 @@ const db = to();
     "Drivetrain Type",
     "Shooter Type"
   ];
+  //table head names for the rank tab
   var rank_HeadNames = [
     "Rank",
     "Team",
@@ -345,6 +376,7 @@ const db = to();
     "Penalty",
     "Oof"
   ];
+  //tracks the color for the data for home tab, also used in static_tracker, i think?, bad code too ngl
   var color_tracker = ["b1","b2","b3","r1","r2","r3"]
 
   //ranking table generation
@@ -392,10 +424,16 @@ const db = to();
     document.getElementById("table-container").appendChild(tbl);
   }
 
-  //general match data
+  //HOME TAB
+  //picks up the match, both new or changed match, does not update if the data is deleted from the db, have to refresh
   vr(sr(db, 'Events/BB2022/Matches/'), (snapshot)=>{
     const data = snapshot.val()
     
+        //if the match data is of a new match, meaning that if it is match 3 and has not other data
+        //set up six place holder rows for that match of b1,b2,b3,r1,r2,r3
+        //also create a place holder in the static_tracker (bad name)
+        //this allows it to be replaced easily by incoming data
+        //however, if the match data jumps it will not show up in order, will have to refresh to put in back in order
         if(!static_tracker.hasOwnProperty(data["ZMatch Number"])){
           var temp_obj = {}
           for(var i=0; i<6; i++){
@@ -426,7 +464,11 @@ const db = to();
           }
           static_tracker[data["ZMatch Number"]] = temp_obj;
         }
-
+        //replace the place holder data, or if data already exists in that slot, replace the previous data
+        //this system allows for it to replace the data irt without having to reload
+        //does this buy calling the reference(? not sure what is exactly called) in static tracker to the row
+        //that wants to be replaced, creates a new row, then does .replaceChild to replace it, then changes the
+        //row in static tracker to the new row
        var insert_val = static_tracker[data["ZMatch Number"]][data["Alliance Color"]]
         const row = document.createElement("tr")
         for(var g=0;g<headNames.length;g++){
@@ -449,19 +491,27 @@ const db = to();
         static_tracker[data["ZMatch Number"]][data["Alliance Color"]] = row
   }
   )
-  //ranking data
+  //RANKING TAB
+  //updates everytime a robot gets a new match
+  //code runs over every robot due to trash firebase api and its ability to grab the data desired well
+  //so everytime there is a new match, it kind of has to calculate everything again and have to redisplay all the data
   yr(sr(db, 'Events/BB2022/Robots/'), (snapshot)=>{
     const over = snapshot.val()
     var objNames = Object.keys(over)
     var sort_arr = [];
+    //for loop over each robot
     for(var r=0;r<objNames.length;r++){
     var data = over[objNames[r]];
     var keyNames = Object.keys(data)
     var total_value = 0;
     var avg_temp={}
+    //for loop over all data points wanted to be avg 
     for(var i=0; i<val_tracker.length;i++){
       var temp_value = 0
+      //adds up all match data for that data point wanted to be avged
       for(var j=0; j<keyNames.length; j++){
+        //transforms climb level to points
+        //adds value to temp val, which is the value that will later be avged
         if(val_tracker[i] == "Climb Level"){
           switch(data[keyNames[j]][val_tracker[i]]){
             case "T":
@@ -484,6 +534,8 @@ const db = to();
           temp_value += parseInt(data[keyNames[j]][val_tracker[i]])
         }
       }
+      //takes the the avg and rounds it to the tenth, then multiply by weight then equalizer, later want to make weight easily changeable
+      //stores this avg int avg_tracker in table_cache
       temp_value/= keyNames.length
       temp_value = temp_value.toFixed(1)
       avg_temp[val_tracker[i]] = temp_value
@@ -492,12 +544,14 @@ const db = to();
       temp_value = temp_value.toFixed(1)
       total_value+=parseFloat(temp_value)
     }
+    //puts the total avg to the robot, and vice versa
     total_value = total_value.toFixed(1)
     robot_avg_tracker[data[keyNames[0]]["ZTeam"]] = avg_temp
 
     robot_score_tracker[data[keyNames[0]]["ZTeam"]] = total_value
 
     }
+    //sorts all the avgs
     var robot_score_key = Object.keys(robot_score_tracker)
     for(var d=0;d<robot_score_key.length;d++){
       if(sort_arr.indexOf(robot_score_tracker[robot_score_key[d]]) == -1){
@@ -506,10 +560,13 @@ const db = to();
     }
     sort_arr.sort(function(a,b){return a-b})
     var rank_counter = 1;
+    //has to reset everytime, see above for reason why (firebase api)
     ranktblBody.innerHTML = ""
+    //goes through all the avg, the by each avg, from greatest to least, checks all robots that have that avg then displays it in the table
     for(var g=sort_arr.length-1;g>=0;g--){
       for(var f=0; f<robot_score_key.length;f++){
         if(robot_score_tracker[robot_score_key[f]] == sort_arr[g]){
+          //bad code
         var row = document.createElement("tr")
         var cellText = document.createElement("div");
           var pushinP = document.createElement("p");
@@ -538,6 +595,7 @@ const db = to();
           row.appendChild(cell);
           cell.appendChild(cellText);
           cellText.appendChild(pushinP);
+          //adds avg data to the row, then is displayed on the table
           for(var b=0; b<val_tracker.length;b++){
             cellText = document.createElement("div");
           pushinP = document.createElement("p");
