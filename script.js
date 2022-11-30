@@ -615,4 +615,12 @@ const db = to();
   table_tableHead()
   rank_tableHead()
 
-  
+
+  //percentile work
+  yr(sr(db, 'Events/BB2022/Robots/'), (data)=>{
+    data = data.val()
+
+    let percentile = new Percentile(data);
+    percentile.convertRawToObject().processObjectData()
+    
+  })
