@@ -46,6 +46,7 @@ class Percentile{
     constructor(data){
         this.data = data;
         this.percentileObject = {};
+        this.percentileObjectSorted = {};
     }
 
     convertRawToObject(){
@@ -72,6 +73,9 @@ class Percentile{
         let keys = Object.keys(Object.values(Object.values(this.data)[0])[0]) //should reference global obj
         for(let i=0; i<keys.length; i++){
             this.percentileObject[keys[i]] = dataArray[i]
+            this.percentileObjectSorted[keys[i]] = this.percentileObject[keys[i]]
+            this.percentileObjectSorted[keys[i]].sort(function(a, b){return a - b});
+            console.log(this.percentileObjectSorted)
         }
         return(this);
         
@@ -82,6 +86,10 @@ class Percentile{
         this.percentileObject.teleAccuracy = []
         this.percentileObject.autoAccuracy = []
         this.percentileObject.shootingPoints = []
+        this.percentileObjectSorted.autoPoints = []
+        this.percentileObjectSorted.teleAccuracy = []
+        this.percentileObjectSorted.autoAccuracy = []
+        this.percentileObjectSorted.shootingPoints = []
         
         for(let i=0; i<this.percentileObject["Alliance Color"].length; i++){ //should reference global obj
             
@@ -96,18 +104,34 @@ class Percentile{
             let shooting_pts = (parseInt(this.percentileObject["Tele High"][i])*2) + (parseInt(this.percentileObject["Tele Low"][i])*1)
 
             this.percentileObject.autoPoints.push(auto_pts);
+            this.percentileObjectSorted.autoPoints.push(auto_pts);
+                this.percentileObjectSorted.autoPoints.sort(function(a, b){return a - b});
+            //excluding teams that dont shoot from accuracy measurements 
             if(!isNaN(auto_acc)){
                 this.percentileObject.autoAccuracy.push(auto_acc);
+                this.percentileObjectSorted.autoAccuracy.push(auto_acc);
+                this.percentileObjectSorted.autoAccuracy.sort(function(a, b){return a - b});
             }
             if(!isNaN(tele_acc)){
                 this.percentileObject.teleAccuracy.push(tele_acc);
+                this.percentileObjectSorted.teleAccuracy.push(tele_acc);
+                this.percentileObjectSorted.teleAccuracy.sort(function(a, b){return a - b});
             }
-            this.percentileObject.shootingPoints.push(shooting_pts);
-        }
-        console.log(this.percentileObject)
-    }
-    findPercentileOf(value){
+            if(shooting_pts != 0){
+                this.percentileObject.shootingPoints.push(shooting_pts);
+                this.percentileObjectSorted.shootingPoints.push(shooting_pts);
+                this.percentileObjectSorted.shootingPoints.sort(function(a, b){return a - b});
+            }        
 
+        }
+    }
+    findPercentileOf(val, name){
+        for(let i=0; i<this.percentileObjectSorted[name].length; i++){
+            if(this.percentileObjectSorted[name][i] > val){
+                console.log(i/this.percentileObjectSorted[name].length);
+                return;
+            }
+        }
     }
     addNewMatchToPercentile(snapshot){
 

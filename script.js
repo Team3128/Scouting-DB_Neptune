@@ -622,5 +622,5 @@ const db = to();
 
     let percentile = new Percentile(data);
     percentile.convertRawToObject().processObjectData()
-    
+    percentile.findPercentileOf(21, "shootingPoints")
   })
