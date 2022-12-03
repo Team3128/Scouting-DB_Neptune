@@ -323,6 +323,30 @@ const db = to();
       }
     })
   }
+
+
+//compare tab
+// create input box
+var searchState = true;
+
+window.onload=function(){
+  document.getElementById("searchbar").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      console.log("enter pressed")
+        event.preventDefault();
+        if (currentTab == "search") {
+          search(document.getElementById("searchbar").value)
+        }
+    }
+  })
+}
+// }
+// split screen into 2-3 divs
+// load in stab
+// load in qata
+// have match specifier
+
+
   //
   //HOME TAB AND RANK TAB
   //

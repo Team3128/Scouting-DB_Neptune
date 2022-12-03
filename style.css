@@ -263,6 +263,23 @@ table{
 
 }
 
+#compareContainer{
+    display:grid;
+    background-color: var(--bg-color);
+    grid-template-columns: repeat(10, 8.9vw); 
+    /* ^ above line is iffy, pls change later */
+    grid-template-rows: repeat(10, 9vh);
+    height: 90vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    margin-right: 2vw;
+    width: calc(96vw - 65px - 2vw);
+    overflow:hidden;
+
+    border-radius: 0.45rem;
+    box-shadow: rgba(0, 0, 0, 0.08) 0px 4px 12px;
+}
+
 #imgContainer{
     grid-row: 1/3;
     grid-column:1/3;
