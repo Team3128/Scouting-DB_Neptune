@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Team3128/Scouting-DB_Neptune#readme",
   "dependencies": {
+    "chart.js": "^4.0.1",
     "firebase": "^9.15.0",
     "snowpack": "^3.8.8"
   }

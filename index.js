@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { DataStructure } from "./modules/dataStructure";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAO1aIe_fTZB6duj8YIRyYcLTINlcP196w",
@@ -15,3 +15,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+let data = new DataStructure()
+console.log(data.getDataLabel(0));
