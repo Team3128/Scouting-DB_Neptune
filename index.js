@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { DataStructure } from "./modules/dataStructure";
+import { Percentile } from "./modules/percentile";
+import { DataConverter } from "./modules/decode";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAO1aIe_fTZB6duj8YIRyYcLTINlcP196w",
