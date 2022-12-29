@@ -3,6 +3,10 @@ import { initializeApp } from "firebase/app";
 import { DataStructure } from "./modules/dataStructure";
 import { Percentile } from "./modules/percentile";
 import { DataConverter } from "./modules/decode";
+import { getDatabase, ref, child, get } from "firebase/database";
+import { SwitchPage } from "./modules/switchPage";
+
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyAO1aIe_fTZB6duj8YIRyYcLTINlcP196w",
@@ -17,6 +21,32 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const dbRef = ref(getDatabase());
 
-let data = new DataStructure()
-console.log(data.getDataLabel(0));
+get(child(dbRef, "Events/BB2022/Robots")).then((snapshot) => {
+})
+
+
+//Navigation
+let pageChange = new SwitchPage()
+let allNavBtns = document.querySelectorAll(".nav-container");
+allNavBtns.forEach((element, index) =>{
+  element.addEventListener("click", ()=>{pageChange.switchEvent(allNavBtns[index].getAttribute("name"))})
+})
+document.addEventListener("keydown", function(e) {
+  if(e.key == "Tab"){
+    e.preventDefault()
+    if(pageChange.toggleState){
+      pageChange.hidePanel()
+      pageChange.toggleState = false;
+    }
+    else{
+      pageChange.showPanel()
+      pageChange.toggleState = true;
+    }
+  }
+})
+
+//Home
+
+

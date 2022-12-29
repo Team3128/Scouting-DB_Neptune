@@ -4,11 +4,89 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Starter Snowpack App" />
-    <title>Starter Snowpack App</title>
+    <title>Neptune</title>
     <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=Roboto+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <script type="module" src="/index.js"></script>
+    
+    <div id="viewpage">
+      <!-- Navigation -->
+      <div id="nav" class="subpage">
+        <div id="nav-bar">
+          <div class="nav-container" name="home">
+            <img src="assets/home.png">
+            <div class="nav-label">
+              Home
+            </div>
+          </div>
+
+          <div class="nav-container" name="search">
+            <img src="assets/search.png">
+            <div class="nav-label">
+              Search
+            </div>
+          </div>
+
+          <div class="nav-container" name="compare">
+            <img src="assets/compare.png">
+            <div class="nav-label">
+              Compare
+            </div>
+          </div>
+
+          <div class="nav-container" name="ranking">
+            <img src="assets/ranking.png">
+            <div class="nav-label">
+              Ranking
+            </div>
+          </div>
+
+          <div class="nav-container" name="predict">
+            <img src="assets/predict.png">
+            <div class="nav-label">
+              Predict
+            </div>
+          </div>
+
+          <div class="nav-container" name="settings">
+            <img src="assets/settings.png">
+            <div class="nav-label">
+              Settings
+            </div>
+          </div>
+
+          <div class="nav-container last" name="back">
+            <img src="assets/back.png">
+          </div>
+        </div>
+
+        <input id="nav-search" type="form" autocomplete="off">
+
+        </input>
+      </div>
+      <!-- Pages -->
+      <div id="home" class="subpage">
+        Home, hello there
+      </div>
+      <div id="search" class="subpage hide">
+        Search bruh
+      </div>
+      <div id="compare" class="subpage hide">
+        comp bruh
+      </div>
+      <div id="ranking" class="subpage hide">
+        ronk bruh
+      </div>
+      <div id="predict" class="subpage hide">
+        predict bruh
+      </div>
+      <div id="settings" class="subpage hide">
+        settings bruh
+      </div>
+
+
+    </div>
+    <script type="module" src="index.js" defer></script>
   </body>
 </html>
